@@ -14,8 +14,8 @@ module "RG" {
 resource "azurerm_virtual_network" "github-action" {
   name                = "github-action-network"
   address_space       = ["10.0.0.0/16"]
-  location            = module.RG.rg_name.location
-  resource_group_name = module.RG.rg_name.name
+  location            = module.RG.resourcegroup_name.location
+  resource_group_name = module.RG.resourcegroup_name.name
 }
 resource "azurerm_subnet" "github-action" {
   name                 = "internal"
