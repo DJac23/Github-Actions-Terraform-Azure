@@ -43,7 +43,7 @@ resource "azurerm_windows_virtual_machine" "github-action" {
   admin_username      = var.admin_username
   admin_password      = var.admin_password
   network_interface_ids = [
-    azurerm_network_interface.rgname.id,
+    azurerm_network_interface.github-action.id,
   ]
 
   os_disk {
