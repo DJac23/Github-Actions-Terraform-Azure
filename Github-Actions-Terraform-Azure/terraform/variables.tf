@@ -13,8 +13,8 @@ variable "sname" {
 
 variable "instance_tags" {
   type = object ({
-    Name = String
-    Env = String
+    Name = string
+    Env = string
   }) 
 }
 variable "admin_username" {
@@ -22,7 +22,7 @@ variable "admin_username" {
   sensitive = true
 }
 
-variable "admin_password " {
+variable "admin_password" {
   type = string
   sensitive = true
 }
