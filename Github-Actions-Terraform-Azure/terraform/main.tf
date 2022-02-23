@@ -36,7 +36,7 @@ resource "azurerm_network_interface" "github-action" {
   }
 }
 resource "azurerm_windows_virtual_machine" "github-action" {
-  name                = "github-action-machine"
+  name                = "github-action"
   resource_group_name = module.RG.resourcegroup_name.rg_name
   location            = var.location
   size                = "Standard_F2"
@@ -61,6 +61,6 @@ resource "azurerm_windows_virtual_machine" "github-action" {
 module "SA" {
   source   = "./modules/StorageAccount"
   sname    = var.sname
-  rgname   = var.rgname
+  rgname   = module.RG.resourcegroup_name.rg_name
   location = var.location
 }
