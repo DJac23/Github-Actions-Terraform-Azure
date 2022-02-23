@@ -61,6 +61,6 @@ resource "azurerm_windows_virtual_machine" "github-action" {
 module "SA" {
   source   = "./modules/StorageAccount"
   sname    = var.sname
-  rgname   = module.RG.resourcegroup_name.rg_name
+  rgname   = var.rgname
   location = var.location
 }
