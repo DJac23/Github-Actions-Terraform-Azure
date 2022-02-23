@@ -14,7 +14,7 @@ module "RG" {
 resource "azurerm_virtual_network" "github-action" {
   name                = "github-action-network"
   address_space       = ["10.0.0.0/16"]
-  location            = module.RG.resourcegroup_name.location
+  location            = var.location
   resource_group_name = module.RG.resourcegroup_name.name
 }
 resource "azurerm_subnet" "github-action" {
@@ -26,7 +26,7 @@ resource "azurerm_subnet" "github-action" {
 
 resource "azurerm_network_interface" "github-action" {
   name                = "github-action-nic"
-  location            = module.RG.resourcegroup_name.location
+  location            = var.location
   resource_group_name = module.RG.resourcegroup_name.name
 
   ip_configuration {
@@ -38,7 +38,7 @@ resource "azurerm_network_interface" "github-action" {
 resource "azurerm_windows_virtual_machine" "github-action" {
   name                = "github-action-machine"
   resource_group_name = module.RG.resourcegroup_name.name
-  location            = module.RG.resourcegroup_name.location
+  location            = var.location
   size                = "Standard_F2"
   admin_username      = var.admin_username
   admin_password      = var.admin_password
