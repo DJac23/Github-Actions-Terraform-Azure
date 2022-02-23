@@ -5,7 +5,7 @@ terraform {
     container_name       = "tfstatefile"
     key                  = "dev.terraform.tfstate"
   }
-}
+}#test
 module "RG" {
   source   = "./modules/RG" #A
   rgname   = var.rgname     
