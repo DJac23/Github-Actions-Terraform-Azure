@@ -69,6 +69,7 @@ resource "azurerm_virtual_network" "github-action" {
 #     version   = "latest"
 #   }
 # }
+
 module "SA" {
   source   = "./modules/StorageAccount"
   sname    = var.sname
