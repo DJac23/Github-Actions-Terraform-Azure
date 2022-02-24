@@ -51,6 +51,7 @@ resource "azurerm_windows_virtual_machine" "github-action" {
   network_interface_ids = [
     azurerm_network_interface.github-action[count.index]
   ]
+  
   tags = {
     Name = "github-action ${count.index}"
     Env = "Dev"
