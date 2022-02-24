@@ -51,7 +51,7 @@ resource "azurerm_windows_virtual_machine" "github-action" {
   admin_password      = var.admin_password
   count = 2
   network_interface_ids = [
-    azurerm_network_interface.github-action.id[count.index],
+    azurerm_network_interface.github-action[count.index]
   ]
   tags = {
     Name = "github-action ${count.index}"
