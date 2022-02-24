@@ -11,12 +11,7 @@ variable "sname" {
   type        = string
 }
 
-variable "instance_tags" {
-  type = object ({
-    Name = string
-    Env = string
-  }) 
-}
+
 variable "admin_username" {
   type = string
   sensitive = true
