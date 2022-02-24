@@ -38,6 +38,7 @@ resource "azurerm_network_interface" "github-action" {
   tags = {
     Name = "github-action-nic ${count.index}"
     Env = "Dev"
+    
 }
 
 }
