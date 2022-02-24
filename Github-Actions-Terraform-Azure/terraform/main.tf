@@ -18,10 +18,10 @@ resource "azurerm_virtual_network" "github-action" {
   resource_group_name = module.RG.resourcegroup_name.rg_name
 }
 resource "azurerm_subnet" "github-action" {
-  name                 = "internal"
+  subnet_name          = var.subnet_name[count.index]
   resource_group_name  = module.RG.resourcegroup_name.rg_name
   virtual_network_name = azurerm_virtual_network.github-action.name
-  address_prefixes     = ["10.0.2.0/24","10.0.1.0/.24"]
+  address_prefixes     = var.address_prefixes[count.index]
   count = 2
 
 }
@@ -33,7 +33,7 @@ resource "azurerm_network_interface" "github-action" {
   count = 2
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.github-action[count.index]
+    subnet_id                     = azurerm_subnet.github-action.id
     private_ip_address_allocation = "Dynamic"
   }
   tags = {
