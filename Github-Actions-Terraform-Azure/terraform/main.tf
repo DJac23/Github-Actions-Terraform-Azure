@@ -23,11 +23,10 @@ resource "azurerm_subnet" "github-action" {
   virtual_network_name = azurerm_virtual_network.github-action.name
   address_prefixes     = var.address_prefixes[count.index]
   count = 2
-  
+
 }
 
 resource "azurerm_network_interface" "github-action" {
-  name                = "github-action-nic"
   location            = var.location
   resource_group_name = module.RG.resourcegroup_name.rg_name
   count = 2
@@ -43,7 +42,6 @@ resource "azurerm_network_interface" "github-action" {
 
 }
 resource "azurerm_windows_virtual_machine" "github-action" {
-  name                = "github-action"
   resource_group_name = module.RG.resourcegroup_name.rg_name
   location            = var.location
   size                = "Standard_F2"
