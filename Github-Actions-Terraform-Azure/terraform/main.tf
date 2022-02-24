@@ -22,10 +22,15 @@ resource "azurerm_subnet" "github-action" {
   resource_group_name  = module.RG.resourcegroup_name.rg_name
   virtual_network_name = azurerm_virtual_network.github-action.name
   address_prefixes     = ["10.0.2.0/24","10.0.1.0/.24"]
+  tags = {
+    Name = "internal ${count.index}"
+    Env = "Dev"
+}
+
 }
 
 resource "azurerm_network_interface" "github-action" {
-  name                = "github-action-nic${count.index}"
+  name                = "github-action-nic"
   location            = var.location
   resource_group_name = module.RG.resourcegroup_name.rg_name
 
@@ -34,6 +39,11 @@ resource "azurerm_network_interface" "github-action" {
     subnet_id                     = azurerm_subnet.github-action.id
     private_ip_address_allocation = "Dynamic"
   }
+  tags = {
+    Name = "github-action-nic ${count.index}"
+    Env = "Dev"
+}
+
 }
 resource "azurerm_windows_virtual_machine" "github-action" {
   name                = "github-action"
