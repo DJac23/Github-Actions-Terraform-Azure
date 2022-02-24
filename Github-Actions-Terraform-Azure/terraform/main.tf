@@ -35,6 +35,7 @@ resource "azurerm_network_interface" "github-action" {
     subnet_id                     = azurerm_subnet.github-action.id
     private_ip_address_allocation = "Dynamic"
   }
+  
   tags = {
     Name = "github-action-nic ${count.index}"
     Env = "Dev"    
