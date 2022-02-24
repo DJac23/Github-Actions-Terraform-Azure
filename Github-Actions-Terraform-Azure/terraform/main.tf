@@ -23,7 +23,6 @@ resource "azurerm_subnet" "github-action" {
   virtual_network_name = azurerm_virtual_network.github-action.name
   address_prefixes     = var.address_prefixes[count.index]
   count = 2
-
 }
 
 resource "azurerm_network_interface" "github-action" {
