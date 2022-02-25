@@ -19,7 +19,7 @@ resource "azurerm_virtual_network" "github-action" {
   resource_group_name = module.RG.resourcegroup_name.rg_name
 }
 resource "azurerm_subnet" "github-action-subnet" {
-  subnet_name          = "${var.subnet_name[count.index]}"
+  subnet_name          = var.subnet_name[count.index]
   resource_group_name  = module.RG.resourcegroup_name.rg_name
   virtual_network_name = azurerm_virtual_network.github-action.name
   address_prefixes     = "${var.address_prefixes[count.index]}"
