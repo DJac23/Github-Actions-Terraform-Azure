@@ -34,7 +34,7 @@ resource "azurerm_network_interface" "github-action" {
   count = 2
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_subnet.github-action-subnet.id
+    subnet_id                     = azurerm_subnet.github-action-subnet[count.index]
     private_ip_address_allocation = "Dynamic"
   }
   
@@ -56,7 +56,7 @@ resource "azurerm_windows_virtual_machine" "github-action" {
   ]
 
   tags = {
-    Name = "github-action ${count.index}"
+    Name = "github-action-${count.index}"
     Env = "Dev"
 }
 
