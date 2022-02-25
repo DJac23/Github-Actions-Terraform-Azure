@@ -12,7 +12,7 @@ variable "sname" {
 }
 variable "subnet_name" {
   description = "Azure Subnet Name"
-  type        = string
+  type        = list 
 }
 
 variable "address_prefixes" {
