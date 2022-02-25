@@ -16,7 +16,7 @@ variable "subnet_name" {
 }
 
 variable "address_prefixes" {
-  description = "Azure Subnet Name"
+  description = "Subnet Prefix"
   default        = ["10.0.2.0/24","10.0.1.0/.24"]
 }
 
