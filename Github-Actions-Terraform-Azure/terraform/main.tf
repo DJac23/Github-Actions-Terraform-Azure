@@ -28,7 +28,7 @@ resource "azurerm_subnet" "github-action-subnet" {
 
 }
 
-resource "azurerm_network_interface" "github-action" {
+resource "azurerm_network_interface" "github-action-nic" {
   location            = var.location
   resource_group_name = module.RG.resourcegroup_name.rg_name
   count = 2
@@ -39,7 +39,7 @@ resource "azurerm_network_interface" "github-action" {
   }
   
   tags = {
-    Name = "github-action-nic ${count.index}"
+    name = "github-action-nic-${count.index}"
     Env = "Dev"    
 }
 
