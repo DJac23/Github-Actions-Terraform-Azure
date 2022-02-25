@@ -18,6 +18,7 @@ resource "azurerm_virtual_network" "github-action" {
   location            = var.location
   resource_group_name = module.RG.resourcegroup_name.rg_name
 }
+
 resource "azurerm_subnet" "github-action-subnet" {
   subnet_name          = "${var.subnet_name}-${count.index + 1}"
   resource_group_name  = module.RG.resourcegroup_name.rg_name
