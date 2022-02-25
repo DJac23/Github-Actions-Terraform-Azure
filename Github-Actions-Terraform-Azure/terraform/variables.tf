@@ -17,7 +17,7 @@ variable "subnet_name" {
 
 variable "address_prefixes" {
   description = "Subnet Prefix"
-  default        = list
+  type        = list
 }
 
 variable "admin_username" {
