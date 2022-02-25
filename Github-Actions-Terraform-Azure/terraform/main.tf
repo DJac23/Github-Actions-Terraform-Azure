@@ -29,6 +29,7 @@ resource "azurerm_subnet" "github-action-subnet" {
 }
 
 resource "azurerm_network_interface" "github-action-nic" {
+  name                = "github-action-nic-${count.index}"
   location            = var.location
   resource_group_name = module.RG.resourcegroup_name.rg_name
   count = 2
@@ -45,6 +46,7 @@ resource "azurerm_network_interface" "github-action-nic" {
 
 }
 resource "azurerm_windows_virtual_machine" "github-action" {
+  name                = "github-action-${count.index}"
   resource_group_name = module.RG.resourcegroup_name.rg_name
   location            = var.location
   size                = "Standard_F2"
@@ -52,11 +54,11 @@ resource "azurerm_windows_virtual_machine" "github-action" {
   admin_password      = var.admin_password
   count = 2
   network_interface_ids = [
-    azurerm_network_interface.github-action[count.index]
+    azurerm_network_interface.github-action-nic[count.index]
   ]
 
   tags = {
-    Name = "github-action-${count.index}"
+    name = "github-action-${count.index}"
     Env = "Dev"
 }
 
