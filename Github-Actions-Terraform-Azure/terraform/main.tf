@@ -35,7 +35,7 @@ resource "azurerm_network_interface" "github-action-nic" {
   count = 2
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = "${azurerm_subnet.github-action-subnet.id} e${count.index}"
+    subnet_id                     = "${azurerm_subnet.github-action-subnet[count.idex].id}"
     private_ip_address_allocation = "Dynamic"
   }
   
