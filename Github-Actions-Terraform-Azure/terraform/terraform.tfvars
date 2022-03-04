@@ -1,5 +1,5 @@
-rgname   = "github-action"
-location = "East US"
+rgname   = data.azurerm_resource_group.name
+location = "West US"
 sname    = "devopsguru190"
 admin_username = "adminuser"
 admin_password = "P@$$w0rd1234!"
