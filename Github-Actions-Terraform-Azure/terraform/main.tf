@@ -12,6 +12,7 @@ terraform {
  # rgname   = var.rgname     
  # location = var.location
 #}
+
 data "azurerm_resource_group" "name" {
     name = var.rgname  
 }
