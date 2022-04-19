@@ -26,3 +26,9 @@ variable "admin_password " {
   type = string
   sensitive = true
 }
+
+variable "demoadfname" {
+  description = "Data Factory Name"
+  type = string
+
+}

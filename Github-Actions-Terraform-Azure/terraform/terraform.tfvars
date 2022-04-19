@@ -1,9 +1,10 @@
-rgname   = "github-action"
+rgname   = "New-grp"
 location = "East US"
-sname    = "devopsguru190"
-admin_username = "adminuser"
-admin_password = "P@$$w0rd1234!"
+demoadfname = "demoadf"
+#sname    = "devopsguru190"
+#admin_username = "adminuser"
+#admin_password = "P@$$w0rd1234!"
 instance_tags = {
-    name = "github-action"
-    env = "Dev"
+    name = "New-grp"
+    env = "test"
 }
