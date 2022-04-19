@@ -30,7 +30,7 @@ data "azurerm_virtual_network" "vnet" {
 data "azurerm_subnet" "subnet" {
     name =   "pls-subnet"
     virtual_network_name = data.azurerm_virtual_network.vnet.name
-    resource_group_name = data.azurerm_resource_group.name.id
+    resource_group_name = var.rgname
 }
 
 resource "azurerm_data_factory_integration_runtime_managed" "managedIR" {
@@ -38,7 +38,7 @@ resource "azurerm_data_factory_integration_runtime_managed" "managedIR" {
     data_factory_name = data.azurerm_data_factory.adf.name
    # data_factory_id = data.azurerm_data_factory.adf.id
     location = var.location
-    resource_group_name = data.azurerm_resource_group.name.id
+    resource_group_name = var.rgname
 
     node_size = "Standard_D8_v3"
     vnet_integration {
