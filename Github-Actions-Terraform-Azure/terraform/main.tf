@@ -40,7 +40,7 @@ resource "azurerm_data_factory_integration_runtime_managed" "managedIR" {
     location = var.location
     resource_group_name = data.azurerm_resource_group.name
 
-    node_size = "Standard_D8_V3"
+    node_size = "Standard_D8_v3"
     vnet_integration {
       vnet_id = data.azurerm_virtual_network.vnet.id
       subnet_name = data.azurerm_subnet.subnet.name
