@@ -17,13 +17,42 @@ data "azurerm_resource_group" "name" {
     name = var.rgname
 }
 
-resource "azurerm_data_factory" "demoadfname" {
-    name = var.demoadfname
+data "azurerm_data_factory" "adf" {
+    name = "man-adf-poc"
+    resource_group_name = data.azurerm_resource_group.name
+}
+
+data "azurerm_virtual_network" "vnet" {
+    name = "vnet-01"
+    resource_group_name = data.azurerm_resource_group.name
+}
+
+data "azurerm_subnet" "subnet" {
+    name =   "pls-subnet"
+    virtual_network_name = data.azurerm_virtual_network.vnet.name
+    resource_group_name = data.azurerm_resource_group.name
+}
+
+resource "azurerm_data_factory_integration_runtime_managed" "managedIR" {
+    name = "managedIR"
+    data_factory_id = data.azurerm_data_factory.adf.id
     location = var.location
-    resource_group_name = var.rgname
-    managed_virtual_network_enabled = true
+
+    node_size = "Standard_D8_V3"
+    vnet_integration {
+      vnet_id = data.azurerm_virtual_network.vnet.id
+      subnet_name = data.azurerm_subnet.subnet.name
+    }
   
 }
+
+# resource "azurerm_data_factory" "demoadfname" {
+#     name = var.demoadfname
+#     location = var.location
+#     resource_group_name = var.rgname
+#     managed_virtual_network_enabled = true
+  
+# }
 
 # resource "azurerm_virtual_network" "github-action" {
 #   name                = "github-action-network"
