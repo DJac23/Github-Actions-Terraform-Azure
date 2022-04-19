@@ -36,7 +36,7 @@ data "azurerm_subnet" "subnet" {
 resource "azurerm_data_factory_integration_runtime_managed" "managedIR" {
     name = "managedIR"
     data_factory_name = data.azurerm_data_factory.adf.name
-    data_factory_id = data.azurerm_data_factory.adf.id
+   # data_factory_id = data.azurerm_data_factory.adf.id
     location = var.location
     resource_group_name = data.azurerm_resource_group.name
 
