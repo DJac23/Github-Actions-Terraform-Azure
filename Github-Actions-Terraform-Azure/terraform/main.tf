@@ -6,7 +6,7 @@ terraform {
     key                  = "dev.terraform.tfstate"
   }
 }
-#module "RG" {
+ #module "RG" {
  # source   = "./modules/RG" #A
  # rgname   = var.rgname     
  # location = var.location
