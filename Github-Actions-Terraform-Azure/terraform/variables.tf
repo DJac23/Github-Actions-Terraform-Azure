@@ -31,5 +31,4 @@ variable "location" {
 variable "demoadfname" {
   description = "Data Factory Name"
   type = string
-
 }
