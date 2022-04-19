@@ -15,12 +15,11 @@ terraform {
 
 data "azurerm_resource_group" "name" {
     name = var.rgname
-    location = var.location
 }
 
 resource "azurerm_data_factory" "demoadfname" {
     name = var.demoadfname
-    location = data.azurerm_resource_group.location
+    location = var.location
     resource_group_name = data.azurerm_resource_group.name
     managed_virtual_network_enabled = true
   
