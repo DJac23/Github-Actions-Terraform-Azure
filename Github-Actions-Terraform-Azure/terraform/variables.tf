@@ -6,6 +6,7 @@ variable "location" {
   description = "Azure location"
   type        = string
 }
+
 # variable "sname" {
 #   description = "Azure Storage Account"
 #   type        = string
