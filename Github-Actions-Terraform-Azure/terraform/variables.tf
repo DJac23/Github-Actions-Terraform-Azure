@@ -6,10 +6,10 @@ variable "location" {
   description = "Azure location"
   type        = string
 }
-variable "sname" {
-  description = "Azure Storage Account"
-  type        = string
-}
+# variable "sname" {
+#   description = "Azure Storage Account"
+#   type        = string
+# }
 
 # variable "instance_tags" {
 #   type = object ({
