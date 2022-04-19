@@ -11,21 +11,21 @@ variable "sname" {
   type        = string
 }
 
-variable "instance_tags" {
-  type = object ({
-    Name = String
-    Env = String
-  }) 
-}
-variable "admin_username" {
-  type = string
-  sensitive = true
-}
+# variable "instance_tags" {
+#   type = object ({
+#     Name = String
+#     Env = String
+#   }) 
+# }
+# variable "admin_username" {
+#   type = string
+#   sensitive = true
+# }
 
-variable "admin_password " {
-  type = string
-  sensitive = true
-}
+# variable "admin_password " {
+#   type = string
+#   sensitive = true
+# }
 
 variable "demoadfname" {
   description = "Data Factory Name"
