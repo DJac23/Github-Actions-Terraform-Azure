@@ -20,7 +20,7 @@ data "azurerm_resource_group" "name" {
 resource "azurerm_data_factory" "demoadfname" {
     name = var.demoadfname
     location = var.location
-    resource_group_name = data.azurerm_resource_group.name
+    resource_group_name = var.rgname
     managed_virtual_network_enabled = true
   
 }
