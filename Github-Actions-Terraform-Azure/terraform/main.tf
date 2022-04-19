@@ -14,7 +14,8 @@ terraform {
 #}
 
 data "azurerm_resource_group" "name" {
-    name = var.rgname  
+    name = var.rgname
+    location = var.location
 }
 
 resource "azurerm_data_factory" "demoadfname" {
