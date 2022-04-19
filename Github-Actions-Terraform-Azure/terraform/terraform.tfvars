@@ -1,6 +1,6 @@
 rgname   = "New-grp"
 location = "East US"
-demoadfname = "manageadf_poc"
+demoadfname = "man-adf-poc"
 #sname    = "devopsguru190"
 #admin_username = "adminuser"
 #admin_password = "P@$$w0rd1234!"
