@@ -23,7 +23,3 @@ output "sql_server_id" {
   value = data.azurerm_mssql_server.sql_server_id.id
 }
 
-output "rg_id" {
-  value = data.azurerm_resource_group.rg_id.id
-  
-}
