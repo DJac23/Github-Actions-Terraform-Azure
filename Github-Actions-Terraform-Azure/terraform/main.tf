@@ -41,21 +41,29 @@ resource "azurerm_data_factory" "demoadfname" {
   
 }
 
-
-resource "azurerm_data_factory_integration_runtime_managed" "managedIR" {
+resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
     name = "managedIR"
-    data_factory_name = azurerm_data_factory.demoadfname.name
-   # data_factory_id = data.azurerm_data_factory.adf.id
+    data_factory_id = azurerm_data_factory.demoadfname.id
     location = var.location
-    resource_group_name = var.rgname
-
-    node_size = "Standard_D8_v3"
-    vnet_integration {
-      vnet_id = data.azurerm_virtual_network.vnet.id
-      subnet_name = data.azurerm_subnet.subnet.name
-    }
+    virtual_network_enabled = true
   
 }
+
+
+# resource "azurerm_data_factory_integration_runtime_managed" "managedIR" {
+#     name = "managedIR"
+#     data_factory_name = azurerm_data_factory.demoadfname.name
+#    # data_factory_id = data.azurerm_data_factory.adf.id
+#     location = var.location
+#     resource_group_name = var.rgname
+
+#     node_size = "Standard_D8_v3"
+#     vnet_integration {
+#       vnet_id = data.azurerm_virtual_network.vnet.id
+#       subnet_name = data.azurerm_subnet.subnet.name
+#     }
+  
+# }
 
 
 
