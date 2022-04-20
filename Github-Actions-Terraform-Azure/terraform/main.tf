@@ -33,6 +33,12 @@ data "azurerm_subnet" "subnet" {
     resource_group_name = var.rgname
 }
 
+data "azurerm_mssql_server" "sqlserver" {
+    name = "dbtestserver-01"
+    resource_group_name = var.rgname
+  
+}
+
 resource "azurerm_data_factory" "demoadfname" {
     name = var.demoadfname
     location = var.location
@@ -47,6 +53,26 @@ resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
     resource_group_name = var.rgname
     location = var.location
     virtual_network_enabled = true
+  
+}
+
+resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
+    name = "SQLDB"
+    data_factory_id = azurerm_data_factory.demoadfname.id
+    target_resource_id = data.azurerm_mssql_server.sqlserver.id   
+}
+
+resource "azurerm_private_endpoint" "SQL_DB" {
+    name = "sql_db"
+    location = data.azurerm_resource_group.name.location
+    resource_group_name = data.azurerm_resource_group.name.name
+    subnet_id = data.azurerm_subnet.subnet.id
+
+    private_service_connection {
+      name = "sql-privateserviceconnection"
+      private_connection_resource_id = azurerm_data_factory.demoadfname.id
+      is_manual_connection = false
+    }
   
 }
 
