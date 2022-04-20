@@ -20,6 +20,6 @@ output "virtual_network_id" {
 }
 
 output "sql_server_id" {
-  value = data.azurerm_mssql_server.sql_server_id.id
+  value = data.azurerm_mssql_server.sqlserver.id
 }
 
