@@ -3,9 +3,9 @@
 #     appname = module.RG.resourcegroup_name.rg_name
 #   }
 # }
-output "adf_id" {
-  value = data.azurerm_data_factory.adf.id
-}
+# output "adf_id" {
+#   value = data.azurerm_data_factory.adf.id
+# }
 
 output "subnet_id" {
   value = data.azurerm_subnet.subnet.id
