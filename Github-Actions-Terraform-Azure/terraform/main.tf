@@ -74,8 +74,7 @@ terraform {
 #       subresource_names = [ "sqlServer" ]
 #       private_connection_resource_id = data.azurerm_mssql_server.sqlserver.id
 #       is_manual_connection = false
-#     }
-  
+#     }  
 #}
 
 
