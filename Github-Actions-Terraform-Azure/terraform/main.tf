@@ -60,23 +60,23 @@ resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
     name = "SQLDB"
     data_factory_id = azurerm_data_factory.demoadfname.id
     target_resource_id = data.azurerm_mssql_server.sqlserver.id 
-    subsubresource_name = "sqlServer"  
+    subresource_name = "sqlServer"  
 }
 
-# resource "azurerm_private_endpoint" "SQL_DB" {
-#     name = "sql_db"
-#     location = data.azurerm_resource_group.name.location
-#     resource_group_name = data.azurerm_resource_group.name.name
-#     subnet_id = data.azurerm_subnet.subnet.id
+resource "azurerm_private_endpoint" "SQL_DB" {
+    name = "sql_db"
+    location = data.azurerm_resource_group.name.location
+    resource_group_name = data.azurerm_resource_group.name.name
+    subnet_id = data.azurerm_subnet.subnet.id
 
-#     private_service_connection {
-#       name = "sql-privateserviceconnection"
-
-#       private_connection_resource_id = azurerm_data_factory.demoadfname.id
-#       is_manual_connection = false
-#     }
+    private_service_connection {
+      name = "sql-privateserviceconnection"
+      subresource_names = [ "sqlServer" ]
+      private_connection_resource_id = data.azurerm_mssql_server.sqlserver.id
+      is_manual_connection = false
+    }
   
-# }
+}
 
 
 # resource "azurerm_data_factory_integration_runtime_managed" "managedIR" {
