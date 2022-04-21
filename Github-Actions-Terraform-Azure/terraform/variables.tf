@@ -28,7 +28,7 @@ variable "location" {
 #   sensitive = true
 # }
 
-variable "demoadfname" {
-  description = "Data Factory Name"
-  type = string
-}
+# variable "demoadfname" {
+#   description = "Data Factory Name"
+#   type = string
+# }
