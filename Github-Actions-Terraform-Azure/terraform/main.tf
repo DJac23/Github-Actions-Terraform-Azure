@@ -62,21 +62,59 @@ resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
     target_resource_id = data.azurerm_mssql_server.sqlserver.id 
     subresource_name = "sqlServer"  
 }
-
-resource "azurerm_private_endpoint" "SQL_DB" {
-    name = "sql_db"
-    location = data.azurerm_resource_group.name.location
-    resource_group_name = data.azurerm_resource_group.name.name
-    subnet_id = data.azurerm_subnet.subnet.id
-
-    private_service_connection {
-      name = "sql-privateserviceconnection"
-      subresource_names = [ "sqlServer" ]
-      private_connection_resource_id = data.azurerm_mssql_server.sqlserver.id
-      is_manual_connection = false
+resource "null_resource" "approve_priv_endpoint" {
+  triggers = {
+        always_run = timestamp()
     }
-  
+        
+    provisioner "local-exec" {
+        interpreter = ["PowerShell", "-Command"]
+
+        command = <<-EOT
+
+        $resourceName = '${data.azurerm_mssql_server.sqlserver.name}'
+        $resourceGroupName = '${var.rgname}'        
+        $resourceType = 'Microsoft.Sql/servers'
+
+        $text = $(az network private-endpoint-connection list -g $resourceGroupName -n $resourceName --type $resourceType)
+        $json = $text | ConvertFrom-Json
+
+        foreach($connection in $json)
+        {
+            $id = $connection.id
+            $status = $connection.properties.privateLinkServiceConnectionState.status
+
+            if($status -eq "Pending"){
+        
+                Write-Host $id ' is in a pending state'
+                Write-Host $status
+
+                az network private-endpoint-connection approve --id $id
+            }
+        }
+
+        EOT
+        }
+
+    depends_on = [
+        azurerm_data_factory_managed_private_endpoint
+    ]
 }
+
+# resource "azurerm_private_endpoint" "SQL_DB" {
+#     name = "sql_db"
+#     location = data.azurerm_resource_group.name.location
+#     resource_group_name = data.azurerm_resource_group.name.name
+#     subnet_id = data.azurerm_subnet.subnet.id
+
+#     private_service_connection {
+#       name = "sql-privateserviceconnection"
+#       subresource_names = [ "sqlServer" ]
+#       private_connection_resource_id = data.azurerm_mssql_server.sqlserver.id
+#       is_manual_connection = false
+#     }
+  
+# }
 
 
 # resource "azurerm_data_factory_integration_runtime_managed" "managedIR" {
