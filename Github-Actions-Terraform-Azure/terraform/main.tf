@@ -56,12 +56,12 @@ resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
   
 }
 
-# resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
-#     name = "SQLDB"
-#     data_factory_id = azurerm_data_factory.demoadfname.id
-#     target_resource_id = data.azurerm_mssql_server.sqlserver.id 
-#     subresource_name = "sqlServer"  
-# }
+resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
+    name = "SQLDB"
+    data_factory_id = azurerm_data_factory.demoadfname.id
+    target_resource_id = data.azurerm_mssql_server.sqlserver.id 
+    subresource_name = "sqlServer"  
+}
 
 # resource "azurerm_private_endpoint" "SQL_DB" {
 #     name = "sql_db"
