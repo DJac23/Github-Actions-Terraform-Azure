@@ -13,69 +13,69 @@ terraform {
  # location = var.location
 #}
 
-# data "azurerm_resource_group" "name" {
-#     name = "New-grp"
-# }
+data "azurerm_resource_group" "name" {
+    name = "New-grp"
+}
 
-# data "azurerm_data_factory" "adf" {
-#     name = "man-adf-poc"
-#     resource_group_name = var.rgname
-# }
+data "azurerm_data_factory" "adf" {
+    name = "man-adf-poc"
+    resource_group_name = var.rgname
+}
 
-# data "azurerm_virtual_network" "vnet" {
-#     name = "vnet-01"
-#     resource_group_name = var.rgname
-# }
+data "azurerm_virtual_network" "vnet" {
+    name = "vnet-01"
+    resource_group_name = var.rgname
+}
 
-# data "azurerm_subnet" "subnet" {
-#     name =   "priv-endpoints"
-#     virtual_network_name = data.azurerm_virtual_network.vnet.name
-#     resource_group_name = var.rgname
-# }
+data "azurerm_subnet" "subnet" {
+    name =   "priv-endpoints"
+    virtual_network_name = data.azurerm_virtual_network.vnet.name
+    resource_group_name = var.rgname
+}
 
-# data "azurerm_mssql_server" "sqlserver" {
-#     name = "dbtestserver-01"
-#     resource_group_name = var.rgname
+data "azurerm_mssql_server" "sqlserver" {
+    name = "dbtestserver-01"
+    resource_group_name = var.rgname
   
-# }
+}
 
-# resource "azurerm_data_factory" "demoadfname" {
-#     name = var.demoadfname
-#     location = var.location
-#     resource_group_name = var.rgname
-#     managed_virtual_network_enabled = true
+resource "azurerm_data_factory" "demoadfname" {
+    name = var.demoadfname
+    location = var.location
+    resource_group_name = var.rgname
+    managed_virtual_network_enabled = true
   
-# }
+}
 
-# resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
-#     name = "managedIR"
-#     data_factory_id = azurerm_data_factory.demoadfname.id
-#     resource_group_name = var.rgname
-#     location = var.location
-#     virtual_network_enabled = true
+resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
+    name = "managedIR"
+    data_factory_id = azurerm_data_factory.demoadfname.id
+    resource_group_name = var.rgname
+    location = var.location
+    virtual_network_enabled = true
   
-# }
+}
 
-# resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
-#     name = "SQLDB"
-#     data_factory_id = azurerm_data_factory.demoadfname.id
-#     target_resource_id = data.azurerm_mssql_server.sqlserver.id 
-#     subresource_name = "sqlServer"  
-# }
+resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
+    name = "SQLDB"
+    data_factory_id = azurerm_data_factory.demoadfname.id
+    target_resource_id = data.azurerm_mssql_server.sqlserver.id 
+    subresource_name = "sqlServer"  
+}
 
-# resource "azurerm_private_endpoint" "SQL_DB" {
-#     name = "sql_db"
-#     location = data.azurerm_resource_group.name.location
-#     resource_group_name = data.azurerm_resource_group.name.name
-#     subnet_id = data.azurerm_subnet.subnet.id
+resource "azurerm_private_endpoint" "SQL_DB" {
+    name = "sql_db"
+    location = data.azurerm_resource_group.name.location
+    resource_group_name = data.azurerm_resource_group.name.name
+    subnet_id = data.azurerm_subnet.subnet.id
 
-#     private_service_connection {
-#       name = "sql-privateserviceconnection"
-#       subresource_names = [ "sqlServer" ]
-#       private_connection_resource_id = data.azurerm_mssql_server.sqlserver.id
-#       is_manual_connection = false
-#     }  
-#}
+    private_service_connection {
+      name = "sql-privateserviceconnection"
+      subresource_names = [ "sqlServer" ]
+      private_connection_resource_id = data.azurerm_mssql_server.sqlserver.id
+      is_manual_connection = false
+    }  
+}
 
 
 # resource "azurerm_data_factory_integration_runtime_managed" "managedIR" {
