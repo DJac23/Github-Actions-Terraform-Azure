@@ -97,7 +97,7 @@ resource "null_resource" "approve_priv_endpoint" {
         }
 
     depends_on = [
-        azurerm_data_factory_managed_private_endpoint.name
+        azurerm_data_factory_managed_private_endpoint.SQLDB.name
     ]
 }
 
