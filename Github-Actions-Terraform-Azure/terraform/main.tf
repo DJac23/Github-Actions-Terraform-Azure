@@ -17,11 +17,6 @@ data "azurerm_resource_group" "name" {
     name = "New-grp"
 }
 
-data "azurerm_data_factory" "adf" {
-    name = "man-adf-poc"
-    resource_group_name = var.rgname
-}
-
 data "azurerm_virtual_network" "vnet" {
     name = "vnet-01"
     resource_group_name = var.rgname
