@@ -13,31 +13,31 @@ terraform {
  # location = var.location
 #}
 
-data "azurerm_resource_group" "name" {
-    name = "New-grp"
-}
+# data "azurerm_resource_group" "name" {
+#     name = "New-grp"
+# }
 
 # data "azurerm_data_factory" "adf" {
 #     name = "man-adf-poc"
 #     resource_group_name = var.rgname
 # }
 
-data "azurerm_virtual_network" "vnet" {
-    name = "vnet-01"
-    resource_group_name = var.rgname
-}
+# data "azurerm_virtual_network" "vnet" {
+#     name = "vnet-01"
+#     resource_group_name = var.rgname
+# }
 
-data "azurerm_subnet" "subnet" {
-    name =   "priv-endpoints"
-    virtual_network_name = data.azurerm_virtual_network.vnet.name
-    resource_group_name = var.rgname
-}
+# data "azurerm_subnet" "subnet" {
+#     name =   "priv-endpoints"
+#     virtual_network_name = data.azurerm_virtual_network.vnet.name
+#     resource_group_name = var.rgname
+# }
 
-data "azurerm_mssql_server" "sqlserver" {
-    name = "dbtestserver-01"
-    resource_group_name = var.rgname
+# data "azurerm_mssql_server" "sqlserver" {
+#     name = "dbtestserver-01"
+#     resource_group_name = var.rgname
   
-}
+# }
 
 # resource "azurerm_data_factory" "demoadfname" {
 #     name = var.demoadfname
