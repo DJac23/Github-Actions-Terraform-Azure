@@ -65,7 +65,7 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "dev-dlake-filesys" {
 
 resource "azurerm_synapse_workspace" "dev-synwks-001" {
   name                                 = "dev-synwks-001"
-  resource_group_name                  = data.azurerm_resource_group.name.id
+  resource_group_name                  = data.azurerm_resource_group.name.name
   location                             = var.location
   storage_data_lake_gen2_filesystem_id = azurerm_storage_data_lake_gen2_filesystem.dev-dlake-filesys.id
   sql_administrator_login              = var.admin_username
