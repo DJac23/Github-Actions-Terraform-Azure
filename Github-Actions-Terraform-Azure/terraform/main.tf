@@ -96,5 +96,13 @@ resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
 resource "azurerm_data_factory_managed_private_endpoint" "syndatalake" {
     name = "syndatalake"
     data_factory_id = azurerm_data_factory.demoadfname.id
-    target_resource_id = azurerm_storage_account.sname.id  
+    target_resource_id = azurerm_storage_account.sname.id
+    subsubresource_name = "blob"  
+}
+
+resource "azurerm_data_factory_managed_private_endpoint" "syndatalake" {
+    name = "syndatalake"
+    data_factory_id = azurerm_data_factory.demoadfname.id
+    target_resource_id = azurerm_storage_account.sname.id
+    subsubresource_name = "table"  
 }
