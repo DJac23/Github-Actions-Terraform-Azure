@@ -7,20 +7,15 @@ terraform {
   }
 }
 
- #module "RG" {
- # source   = "./modules/RG" #A
- # rgname   = var.rgname     
- # location = var.location
-#}
 
-# data "azurerm_resource_group" "name" {
-#     name = "New-grp"
-# }
+data "azurerm_resource_group" "name" {
+    name = "New-grp"
+}
 
-# data "azurerm_virtual_network" "vnet" {
-#     name = "vnet-01"
-#     resource_group_name = var.rgname
-# }
+data "azurerm_virtual_network" "vnet" {
+    name = "vnet-01"
+    resource_group_name = var.rgname
+}
 
 # data "azurerm_subnet" "subnet" {
 #     name =   "priv-endpoints"
@@ -28,118 +23,82 @@ terraform {
 #     resource_group_name = var.rgname
 # }
 
-# data "azurerm_mssql_server" "sqlserver" {
-#     name = "dbtestserver-01"
-#     resource_group_name = var.rgname
+data "azurerm_mssql_server" "sqlserver" {
+    name = "dbtestserver-01"
+    resource_group_name = var.rgname
   
-# }
+}
 
-# resource "azurerm_data_factory" "demoadfname" {
-#     name = var.demoadfname
-#     location = var.location
-#     resource_group_name = var.rgname
-#     managed_virtual_network_enabled = true
+#Creating ADF and Synapse Workspace
+
+resource "azurerm_data_factory" "demoadfname" {
+    name = var.demoadfname
+    location = var.location
+    resource_group_name = var.rgname
+    managed_virtual_network_enabled = true
   
-# }
+}
 
-# resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
-#     name = "managedIR"
-#     data_factory_id = azurerm_data_factory.demoadfname.id
-#     resource_group_name = var.rgname
-#     location = var.location
-#     virtual_network_enabled = true
+resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
+    name = "managedIR"
+    data_factory_id = azurerm_data_factory.demoadfname.id
+    resource_group_name = var.rgname
+    location = var.location
+    virtual_network_enabled = true
   
-# }
+}
 
-# resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
-#     name = "SQLDB"
-#     data_factory_id = azurerm_data_factory.demoadfname.id
-#     target_resource_id = data.azurerm_mssql_server.sqlserver.id 
-#     subresource_name = "sqlServer"  
-# }
+resource "azurerm_storage_account" "sname" {
+  name                     = var.sname
+  resource_group_name      = data.azurerm_resource_group.name.name
+  location                 = var.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  account_kind             = "StorageV2"
+  is_hns_enabled           = "true"
+}
 
-# resource "azurerm_private_endpoint" "SQL_DB" {
-#     name = "sql_db"
-#     location = data.azurerm_resource_group.name.location
-#     resource_group_name = data.azurerm_resource_group.name.name
-#     subnet_id = data.azurerm_subnet.subnet.id
+resource "azurerm_storage_data_lake_gen2_filesystem" "dev-dlake-filesys" {
+  name               = "dev-dlake-filesys"
+  storage_account_id = azurerm_storage_account.sname.id
+}
 
-#     private_service_connection {
-#       name = "sql-privateserviceconnection"
-#       subresource_names = [ "sqlServer" ]
-#       private_connection_resource_id = data.azurerm_mssql_server.sqlserver.id
-#       is_manual_connection = false
-#     }  
-# }
+resource "azurerm_synapse_workspace" "dev-synwks-001" {
+  name                                 = "dev-synwks-001"
+  resource_group_name                  = data.azurerm_resource_group.name.id
+  location                             = var.location
+  storage_data_lake_gen2_filesystem_id = azurerm_storage_data_lake_gen2_filesystem.dev-dlake-filesys.id
+  sql_administrator_login              = var.admin_username
+  sql_administrator_login_password     = var.admin_password 
+  managed_virtual_network_enabled = true
+  data_exfiltration_protection_enabled = true
+
+  aad_admin {
+    login     = "AzureAD Admin"
+    object_id = var.object_id
+    tenant_id = var.tenant_id
+  }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  tags = {
+    Env = "production"
+  }
+}
 
 
-# resource "azurerm_data_factory_integration_runtime_managed" "managedIR" {
-#     name = "managedIR"
-#     data_factory_name = azurerm_data_factory.demoadfname.name
-#    # data_factory_id = data.azurerm_data_factory.adf.id
-#     location = var.location
-#     resource_group_name = var.rgname
+#ADF Azure to Azure Manage Endpoints
+resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
+    name = "SQLDB"
+    data_factory_id = azurerm_data_factory.demoadfname.id
+    target_resource_id = data.azurerm_mssql_server.sqlserver.id 
+    subresource_name = "sqlServer"  
+}
 
-#     node_size = "Standard_D8_v3"
-#     vnet_integration {
-#       vnet_id = data.azurerm_virtual_network.vnet.id
-#       subnet_name = data.azurerm_subnet.subnet.name
-#     }
-  
-# }
-
-
-
-# resource "azurerm_virtual_network" "github-action" {
-#   name                = "github-action-network"
-#   address_space       = ["10.0.0.0/16"]
-#   location            = azurerm_resource_group.rgname.location
-#   resource_group_name = azurerm_resource_group.rgname.name
-# }
-# resource "azurerm_subnet" "github-action" {
-#   name                 = "internal"
-#   resource_group_name  = azurerm_resource_group.rgname.name
-#   virtual_network_name = azurerm_virtual_network.github-action.name
-#   address_prefixes     = ["10.0.2.0/24"]
-# }
-
-# resource "azurerm_network_interface" "github-action" {
-#   name                = "github-action-nic"
-#   location            = azurerm_resource_group.rgname.location
-#   resource_group_name = azurerm_resource_group.github-action.name
-
-#   ip_configuration {
-#     name                          = "internal"
-#     subnet_id                     = azurerm_subnet.rgname.id
-#     private_ip_address_allocation = "Dynamic"
-#   }
-# }
-# resource "azurerm_windows_virtual_machine" "github-action" {
-#   name                = "github-action-machine"
-#   resource_group_name = azurerm_resource_group.rgname.name
-#   location            = azurerm_resource_group.rgname.location
-#   size                = "Standard_F2"
-#   admin_username      = var.admin_username
-#   admin_password      = var.admin_password
-#   network_interface_ids = [
-#     azurerm_network_interface.rgname.id,
-#   ]
-
-#   os_disk {
-#     caching              = "ReadWrite"
-#     storage_account_type = "Standard_LRS"
-#   }
-
-#   source_image_reference {
-#     publisher = "MicrosoftWindowsServer"
-#     offer     = "WindowsServer"
-#     sku       = "2016-Datacenter"
-#     version   = "latest"
-#   }
-# }
-#module "SA" {
- # source   = "./modules/StorageAccount"
- # sname    = var.sname
- # rgname   = var.rgname
- # location = var.location
-#}
+resource "azurerm_data_factory_managed_private_endpoint" "syndatalake" {
+    name = "syndatalake"
+    data_factory_id = azurerm_data_factory.demoadfname.id
+    target_resource_id = azurerm_storage_account.sname.id  
+}
