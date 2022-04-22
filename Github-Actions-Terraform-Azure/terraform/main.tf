@@ -79,12 +79,8 @@ resource "azurerm_synapse_workspace" "dev-synwks-001" {
     tenant_id = var.tenant_id
   }
 
-  identity {
-    type = "SystemAssigned"
-  }
-
   tags = {
-    Env = "production"
+    Env = "dev"
   }
 }
 
