@@ -1,6 +1,6 @@
 rgname   = "New-grp"
 location = "East US"
 demoadfname = "man-adf-poc"
-sname    = "dev-syn-001"
+sname    = "devsyn001"
 admin_username = "admindb"
 admin_password = "year-2022****!"
