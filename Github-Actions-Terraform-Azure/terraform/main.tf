@@ -96,7 +96,9 @@ resource "azurerm_synapse_workspace" "dev-synwks-001" {
     tenant_id = var.tenant_id
   }
 
-  tags = "${var.tags[0]}"
+  tags = {
+      environment = "${var.tags[0]}"
+  }
 }
 
 # ADF Azure to Azure Manage Endpoints
