@@ -44,6 +44,7 @@ resource "azurerm_data_factory" "demoadfname" {
     resource_group_name = var.rgname
     managed_virtual_network_enabled = var.managed_virtual_network_enabled ? "true" : "false"
     public_network_enabled = false
+    
     dynamic "github_configuration"{
       for_each = var.environment == "dev" ? [1] : []
       content{
@@ -63,6 +64,17 @@ resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
     resource_group_name = var.rgname
     location = var.location
     virtual_network_enabled = var.virtual_network_enabled ? "true" : "false"
+
+    dynamic "github_configuration"{
+      for_each = var.environment == "dev" ? [1] : []
+      content{
+        account_name = "djac23"
+        branch_name = "Test"
+        repository_name = "Github-Actions-Terraform-Azure"
+        root_folder = "/"
+        git_url = "https://github.com"
+      }
+    }
   
 }
 
@@ -74,6 +86,7 @@ resource "azurerm_storage_account" "sname" {
   account_replication_type = "LRS"
   account_kind             = "StorageV2"
   is_hns_enabled           = "true" #enables Hierarchical Namespace(used for data lake storages)
+  public_network_enabled   =  false
 }
 
 resource "azurerm_storage_data_lake_gen2_filesystem" "dev-dlake-filesys" {
