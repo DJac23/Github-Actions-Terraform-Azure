@@ -58,7 +58,7 @@ variable "aad_admin_login" {
 }
 
 variable "tags" { 
-  type = "list"
+  type = list(string)
   default = ["dev","test","prod"]
 }
 
