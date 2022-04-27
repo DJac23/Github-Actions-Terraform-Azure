@@ -47,7 +47,7 @@ resource "azurerm_data_factory" "demoadfname" {
       for_each = var.environment == "dev" ? [1] : []
       content{
         account_name = "djac23"
-        branch_name = "test"
+        branch_name = "Test"
         repository_name = "Github-Actions-Terraform-Azure"
         root_folder = "/"
         git_url = "https://github.com"
