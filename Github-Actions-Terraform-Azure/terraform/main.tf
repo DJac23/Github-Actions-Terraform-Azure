@@ -43,6 +43,7 @@ resource "azurerm_data_factory" "demoadfname" {
     location = var.location
     resource_group_name = var.rgname
     managed_virtual_network_enabled = var.managed_virtual_network_enabled ? "true" : "false"
+    public_network_enabled = false
     dynamic "github_configuration"{
       for_each = var.environment == "dev" ? [1] : []
       content{
