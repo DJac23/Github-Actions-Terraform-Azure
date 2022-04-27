@@ -3,23 +3,27 @@
 #     appname = module.RG.resourcegroup_name.rg_name
 #   }
 # }
-# output "adf_id" {
-#   value = data.azurerm_data_factory.adf.id
-# }
+output "adf_id" {
+  value = data.azurerm_data_factory.adf.id
+}
 
-# output "subnet_id" {
-#   value = data.azurerm_subnet.subnet.id
-# }
+output "subnet_id" {
+  value = data.azurerm_subnet.subnet.id
+}
 
-# output "rg_id" {
-#   value = data.azurerm_resource_group.name.id
-# }
+output "subnet_id_01" {
+  value = data.azurerm_subnet.subnet1.id
+}
 
-# output "virtual_network_id" {
-#   value = data.azurerm_virtual_network.vnet.id
-# }
+output "rg_id" {
+  value = data.azurerm_resource_group.name.id
+}
 
-# output "sql_server_id" {
-#   value = data.azurerm_mssql_server.sqlserver.id
-# }
+output "virtual_network_id" {
+  value = data.azurerm_virtual_network.vnet.id
+}
+
+output "sql_server_id" {
+  value = data.azurerm_mssql_server.sqlserver.id
+}
 
