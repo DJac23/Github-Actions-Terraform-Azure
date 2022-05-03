@@ -6,35 +6,42 @@ terraform {
     key                  = "dev.terraform.tfstate"
   }
 }
-# #Add Git Repo block
+
 
 # #Pre-Existing resources
-# data "azurerm_resource_group" "name" {
-#     name = "New-grp"
-# }
+data "azurerm_resource_group" "name" {
+    name = "New-grp"
+}
 
-# data "azurerm_virtual_network" "vnet" {
-#     name = "vnet-01"
-#     resource_group_name = var.rgname
-# }
+data "azurerm_virtual_network" "vnet" {
+    name = "vnet-01"
+    resource_group_name = var.rgname
+}
 
-# data "azurerm_subnet" "subnet" {
-#     name =   "pls-subnet"
-#     virtual_network_name = data.azurerm_virtual_network.vnet.name
-#     resource_group_name = data.azurerm_resource_group.name.name
-# }
+data "azurerm_subnet" "subnet" {
+    name =   "pls-subnet"
+    virtual_network_name = data.azurerm_virtual_network.vnet.name
+    resource_group_name = data.azurerm_resource_group.name.name
+}
 
-# data "azurerm_subnet" "subnet1" {
-#     name = "fe-subnet"
-#     virtual_network_name = data.azurerm_virtual_network.vnet.name
-#     resource_group_name  = data.azurerm_resource_group.name.name  
-# }
+data "azurerm_subnet" "subnet1" {
+    name = "fe-subnet"
+    virtual_network_name = data.azurerm_virtual_network.vnet.name
+    resource_group_name  = data.azurerm_resource_group.name.name  
+}
+
+data "azurerm_subnet" "subnet2" {
+    name = "be-subnet"
+    virtual_network_name = data.azurerm_virtual_network.vnet.name
+    resource_group_name  = data.azurerm_resource_group.name.name  
+}
 
 # data "azurerm_mssql_server" "sqlserver" {
 #     name = "dbtestserver-01"
-#     resource_group_name = var.rgname
-  
+#     resource_group_name = var.rgname  
 # }
+
+
 
 # #Creating ADF 
 
@@ -128,35 +135,111 @@ terraform {
 
 # # #Creating  LB
 
-# # resource "azurerm_lb" "internalLB" {
-# #   name                = "myLoadBalancer"
-# #   location            = var.location
-# #   resource_group_name = data.azurerm_resource_group.name.name
-# #   sku                 = "Standard"
+resource "azurerm_lb" "internalLB" {
+  name                = "myLoadBalancer"
+  location            = var.location
+  resource_group_name = data.azurerm_resource_group.name.name
+  sku                 = "Standard"
   
 
-# #   frontend_ip_configuration {
-# #     name                 = "LoadBalancerFrontEnd"
-# #     zones                =  "Zone-redundant"
-# #     subnet_id            = data.azurerm_subnet.subnet1.id
-# #     private_ip_address_allocation = "Dynamic"
-# #     private_ip_address_version    =  "IPv4"
+  frontend_ip_configuration {
+    name                 = "LoadBalancerFrontEnd"
+    zones                =  "Zone-redundant"
+    subnet_id            = data.azurerm_subnet.subnet1.id
+    private_ip_address_allocation = "Dynamic"
+    private_ip_address_version    =  "IPv4"
   
-# #   }
-# # }
+  }
+}
 
-# # resource "azurerm_lb_backend_address_pool" "myBackendPool" {
-# #   loadbalancer_id = azurerm_lb.internalLB.id
-# #   name            = "myBackendPool"
+resource "azurerm_lb_backend_address_pool" "myBackendPool" {
+  loadbalancer_id = azurerm_lb.internalLB.id
+  name            = "myBackendPool"
+}
 
-# #   # tunnel_interface {
-    
-# #   # }
-# # }
-# # resource "azurerm_lb_probe" "myHealthProbe" {
-# #   loadbalancer_id = azurerm_lb.internalLB.id
-# #   name            = "myHealthProbe"
-# #   port            = 22
-# #   interval_in_seconds = 15
-# # }
+resource "azurerm_lb_probe" "myHealthProbe" {
+  loadbalancer_id = azurerm_lb.internalLB.id
+  name            = "myHealthProbe"
+  port            = 22
+  interval_in_seconds = 15
+}
+
+resource "azurerm_lb_rule" "myRule" {
+  loadbalancer_id = azurerm_lb.internalLB.id
+  name = "myRule"
+  protocol = "TCP"
+  frontend_port = 1433
+  backend_port = 1433
+  frontend_ip_configuration_name = azurerm_lb.internalLB.frontend_ip_configuration
+  backend_address_pool_ids = azurerm_lb_backend_address_pool.myBackendPool.id
+  probe_id = azurerm_lb_probe.myHealthProbe.id
+  
+}
+
+#Private link service setup
+resource "azurerm_private_link_service" "pls" {
+  name = var.pls_name
+  resource_group_name = data.azurerm_resource_group.name.name
+  location = var.location
+
+  auto_approval_subscription_ids = var.Sub_ID
+  visibility_subscription_ids = var.Sub_ID
+  load_balancer_frontend_ip_configuration_ids = [azurerm_lb.internalLB.frontend_ip_configuration.id]
+
+  nat_ip_configuration {
+    name = "myPrivateLinkService"
+    private_ip_address_version = "IPv4"
+    subnet_id = data.azurerm_subnet.subnet.id #Verify that the Subnet's "enforce_private_link_service_network_policies" attribute is set to true.
+    primary = true
+  }  
+}
+
+#Content to add to vm
+resource "local_file" "ip_forward" {
+  filename = "${path.module}/ip_fwd.sh"
+}
+
+#Create Network Card for linux VM
+resource "azurerm_network_interface" "linux-vm-nic" {
+  count = "${length(var.linuxVm_Name)}"
+  name = "${var.linuxVm_NicName}"-[count.index]
+  location = var.location
+  resource_group_name = data.azurerm_resource_group.name.name
+
+  ip_configuration {
+    name = "internal"
+    subnet_id = data.azurerm_subnet.subnet2.id
+    private_ip_address_allocation = "Dynamic"
+  }  
+}
+
+#Associate VM with backend pool
+resource "azurerm_network_interface_backend_address_pool_association" "LbBackEndAss." {
+    network_interface_id = [azurerm_network_interface.linux-vm-nic.*.id,"${count.idex}"]
+    ip_configuration_name = var.config_name -"${count.index}"
+    backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
+}
+
+#creating Linux VM
+resource "azurerm_linux_virtual_machine" "linuxvm" {
+  count = "${length(var.linuxVm_Name)}"
+  name = "${var.linuxVm_Name}"-[count.index]
+  resource_group_name = data.azurerm_resource_group.name.name
+  location = var.location
+  size = "Standard_D2s_v3"
+  network_interface_ids = [element(azurerm_network_interface.linux-vm-nic.*.id, count.index)]
+  admin_username = var.admin_password
+  admin_password = var.admin_password
+  user_data = local_file.ip_forward.filename
+  zone = "1"
+  
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "20.04-LTS"
+    version   = "latest"
+  }
+
+}
 

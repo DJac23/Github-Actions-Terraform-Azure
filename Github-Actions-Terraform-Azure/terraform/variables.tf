@@ -1,26 +1,30 @@
-# variable "rgname" {
-#   description = "Resource Group Name"
-#   type        = string
-# }
-# variable "location" {
-#   description = "Azure location"
-#   type        = string
-# }
+variable "rgname" {
+  description = "Resource Group Name"
+  type        = string
+}
+variable "location" {
+  description = "Azure location"
+  type        = string
+}
 
-# variable "sname" {
-#   description = "Azure Storage Account"
-#   type        = string
-# }
+variable "sname" {
+  description = "Azure Storage Account"
+  type        = string
+}
 
-# variable "admin_username" {
-#   type = string
-#   sensitive = true
-# }
+variable "config_name" {
+  type = string  
+}
 
-# variable "admin_password" {
-#   type = string
-#   sensitive = true
-# }
+variable "admin_username" {
+  type = string
+  sensitive = true
+}
+
+variable "admin_password" {
+  type = string
+  sensitive = true
+}
 
 # variable "demoadfname" {
 #   description = "Data Factory Name"
@@ -35,6 +39,12 @@
 # variable "object_id" {
 #   default = "3304432f-18fe-4a7a-a1e8-de0d71afad38"  
 # }
+
+variable "Sub_ID" {
+    type = list
+    default = ["e812877a-b4ba-4591-88b7-93406abf1c21"]
+  
+}
 
 # variable "managed_virtual_network_enabled" {
 #   type = bool
@@ -87,7 +97,18 @@
 #   default = "syndatalake_table"  
 # }
 
-# variable "environment" {
-#   description =  "Name of environment"
-#   default =  "dev"
-# }
+variable "environment" {
+  description =  "Name of environment"
+  default =  "dev"
+}
+
+variable "pls_name" {
+    default = "pls"  
+}
+
+variable "linuxVm_Name" {
+    default = {
+      "0" = "linux_vm"
+      "1" = "linux_vm"
+    }
+}
