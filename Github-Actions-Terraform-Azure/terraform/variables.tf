@@ -7,10 +7,10 @@ variable "location" {
   type        = string
 }
 
-variable "sname" {
-  description = "Azure Storage Account"
-  type        = string
-}
+# variable "sname" {
+#   description = "Azure Storage Account"
+#   type        = string
+# }
 
 variable "config_name" {
   type = string  
