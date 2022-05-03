@@ -262,7 +262,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   admin_username = var.admin_username 
   admin_password = var.admin_password
   
-  custom_data = base64encode(local.custom_data)
+  custom_data = filebase64("ip_fwd.sh")
 
    os_disk {
     name                 = "myOsDisk${count.index}"
