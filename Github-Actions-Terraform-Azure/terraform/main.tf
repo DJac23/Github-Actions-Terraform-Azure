@@ -167,6 +167,7 @@ resource "azurerm_lb_probe" "myHealthProbe" {
 
 resource "azurerm_lb_rule" "myRule" {
   loadbalancer_id = azurerm_lb.internalLB.id
+  resource_group_name = data.azurerm_resource_group.name.name
   name = "myRule"
   protocol = "TCP"
   frontend_port = 1433
