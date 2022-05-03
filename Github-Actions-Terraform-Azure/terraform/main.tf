@@ -212,7 +212,7 @@ resource "azurerm_network_interface" "linux-vm-nic" {
 
 #Associate VM with backend pool
 resource "azurerm_network_interface_backend_address_pool_association" "Lb_BackEnd_Asso" {
-    network_interface_id = [azurerm_network_interface.linux-vm-nic.*.id,"${count.idex}"]
+    network_interface_id = azurerm_network_interface.linux-vm-nic[count.index]
     ip_configuration_name = var.config_name -"${count.index}"
     backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
 }
@@ -261,7 +261,6 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
 
   admin_username = var.admin_password
   admin_password = var.admin_password
-  user_data = local_file.ip_forward.filename
   zone = "1"  
 
   
