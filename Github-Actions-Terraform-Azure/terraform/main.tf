@@ -178,6 +178,14 @@ resource "azurerm_lb_rule" "myRule" {
   
 }
 
+#Associate VM with LB backend pool
+resource "azurerm_network_interface_backend_address_pool_association" "Lb_BackEnd_Asso" {
+    count = "${length(var.linuxVm_Name)}"
+    network_interface_id = azurerm_network_interface.linux-vm-nic[count.index].id
+    ip_configuration_name = "var.config_name-${count.index}"
+    backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
+}
+
 #Private link service setup
 resource "azurerm_private_link_service" "pls" {
   name = var.pls_name
@@ -210,13 +218,6 @@ resource "azurerm_network_interface" "linux-vm-nic" {
   }  
 }
 
-#Associate VM with backend pool
-resource "azurerm_network_interface_backend_address_pool_association" "Lb_BackEnd_Asso" {
-    count = "${length(var.linuxVm_Name)}"
-    network_interface_id = azurerm_network_interface.linux-vm-nic[count.index].id
-    ip_configuration_name = "var.config_name-${count.index}"
-    backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
-}
 # Create public IPs
 resource "azurerm_public_ip" "myterraformpublicip" {
   name                = "myPublicIP"
@@ -244,12 +245,7 @@ resource "azurerm_network_security_group" "mylinuxsg" {
   }
 }
 
-# Connect the security group to the network interface
-resource "azurerm_network_interface_security_group_association" "nsgassociation" {
-  count = "${length(var.linuxVm_Name)}"
-  network_interface_id      = azurerm_network_interface.linux-vm-nic.id[count.index]  
-  network_security_group_id = azurerm_network_security_group.mylinuxsg.id
-}
+
 #creating Linux VM
 resource "azurerm_linux_virtual_machine" "linuxvm" {
   count = "${length(var.linuxVm_Name)}"
