@@ -247,13 +247,13 @@ resource "azurerm_network_security_group" "mylinuxsg" {
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "nsgassociation" {
   count = "${length(var.linuxVm_Name)}"
-  network_interface_id      = azurerm_network_interface.linux-vm-nic[count.index] 
+  network_interface_id      = azurerm_network_interface.linux-vm-nic.*.id  
   network_security_group_id = azurerm_network_security_group.mylinuxsg.id
 }
 #creating Linux VM
 resource "azurerm_linux_virtual_machine" "linuxvm" {
   count = "${length(var.linuxVm_Name)}"
-  name = "$var.linuxVm_Name-${count.index}"
+  name = "var.linuxVm_Name-${count.index}"
   resource_group_name = data.azurerm_resource_group.name.name
   location = var.location
   size = "Standard_D2s_v3"
