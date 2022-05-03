@@ -113,6 +113,6 @@ variable "linuxVm_Name" {
     }
 }
 
-variable "linuxvm_NicName" {
+variable "linuxVm_NicName" {
   default = "linux_vm_nic"
 }

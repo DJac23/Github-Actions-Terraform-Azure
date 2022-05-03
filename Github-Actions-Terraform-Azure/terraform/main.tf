@@ -216,7 +216,38 @@ resource "azurerm_network_interface_backend_address_pool_association" "Lb_BackEn
     ip_configuration_name = var.config_name -"${count.index}"
     backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
 }
+# Create public IPs
+resource "azurerm_public_ip" "myterraformpublicip" {
+  name                = "myPublicIP"
+  location            = var.location
+  resource_group_name =data.azurerm_resource_group.name.name
+  allocation_method   = "Dynamic"
+}
 
+# Create Network Security Group and rule
+resource "azurerm_network_security_group" "mylinuxsg" {
+  name                = "myNetworkSecurityGroup"
+  location            = var.location
+  resource_group_name =data.azurerm_resource_group.name.name
+
+  security_rule {
+    name                       = "SSH"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+# Connect the security group to the network interface
+resource "azurerm_network_interface_security_group_association" "nsgassociation" {
+  network_interface_id      = azurerm_network_interface.linux-vm-nic.id
+  network_security_group_id = azurerm_network_security_group.mylinuxsg.id
+}
 #creating Linux VM
 resource "azurerm_linux_virtual_machine" "linuxvm" {
   count = "${length(var.linuxVm_Name)}"
@@ -231,15 +262,22 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   admin_username = var.admin_password
   admin_password = var.admin_password
   user_data = local_file.ip_forward.filename
-  zone = "1"
-  
+  zone = "1"  
 
+  
   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
     sku       = "20.04-LTS"
     version   = "latest"
   }
+
+  
+  admin_ssh_key {
+    username   = var.admin_username
+    public_key = file("~/.ssh/id_rsa.pub")
+  }
+
 
 }
 
