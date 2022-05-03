@@ -214,7 +214,7 @@ resource "azurerm_network_interface" "linux-vm-nic" {
 }
 
 #Associate VM with backend pool
-resource "azurerm_network_interface_backend_address_pool_association" "LbBackEndAss." {
+resource "azurerm_network_interface_backend_address_pool_association" "Lb_BackEnd_Asso" {
     network_interface_id = [azurerm_network_interface.linux-vm-nic.*.id,"${count.idex}"]
     ip_configuration_name = var.config_name -"${count.index}"
     backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
