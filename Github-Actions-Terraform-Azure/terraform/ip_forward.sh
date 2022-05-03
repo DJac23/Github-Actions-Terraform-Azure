@@ -4,7 +4,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. 
 #--------------------------------------------------------------------------
-echo "
+
 usage() {
 	echo -e "\e[33m"
 	echo "usage: ${0} [-i <eth_interface>] [-f <frontend_port>] [-a <dest_ip_addr>] [-b <dest_port>]" 1>&2
@@ -14,8 +14,8 @@ usage() {
 	echo "<dest_port>    : Destination port to which packet is forwarded" 1>&2
 	echo "<dest_ip_addr> : Destination IP which packet is forwarded" 1>&2
 	echo -e "\e[0m"
-}
-
+} +
+echo "
 if [[ $# -eq 0 ]]; then
 	echo -e "\e[31mERROR: no options given\e[0m"
 	usage
@@ -101,4 +101,5 @@ iptables -t nat -A PREROUTING -p tcp -i ${ETH_IF} --dport ${FE_PORT} -j DNAT --t
 echo -e "\e[32mCreating SNAT rule from ${DEST_IP}:${DEST_PORT} to ${LOCAL_IP}:${FE_PORT}...\e[0m"
 #iptables -t nat -A POSTROUTING -p tcp -o ${ETH_IF} --dport ${DEST_PORT} -j SNAT -d ${DEST_IP} --to-source ${LOCAL_IP}:${FE_PORT}
 iptables -t nat -A POSTROUTING -o ${ETH_IF} -j MASQUERADE
-echo -e "\e[32mDone!\e[0m" "  >> ./ip_forward.sh
+echo -e "\e[32mDone!\e[0m""
+ >> ./ip_forward.sh
