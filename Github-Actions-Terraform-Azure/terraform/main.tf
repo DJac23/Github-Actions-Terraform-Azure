@@ -8,7 +8,7 @@ terraform {
 }
 
 
-# #Pre-Existing resources
+#Pre-Existing resources
 data "azurerm_resource_group" "name" {
     name = "New-grp"
 }
