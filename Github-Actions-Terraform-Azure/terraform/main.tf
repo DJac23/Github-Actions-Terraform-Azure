@@ -172,8 +172,8 @@ resource "azurerm_lb_rule" "myRule" {
   protocol = "TCP"
   frontend_port = 1433
   backend_port = 1433
-  frontend_ip_configuration_name = azurerm_lb.internalLB.frontend_ip_configuration
-  backend_address_pool_ids = azurerm_lb_backend_address_pool.myBackendPool.id
+  frontend_ip_configuration_name = "LoadBalancerFrontEnd"
+  backend_address_pool_ids = [azurerm_lb_backend_address_pool.myBackendPool.id]
   probe_id = azurerm_lb_probe.myHealthProbe.id
   
 }
@@ -199,7 +199,7 @@ resource "azurerm_private_link_service" "pls" {
 #Create Network Card for linux VM
 resource "azurerm_network_interface" "linux-vm-nic" {
   count = "${length(var.linuxVm_Name)}"
-  name = var.linuxVm_NicName - "${count.index}"
+  name = "var.linuxVm_NicName${count.index}"
   location = var.location
   resource_group_name = data.azurerm_resource_group.name.name
 
