@@ -212,6 +212,7 @@ resource "azurerm_network_interface" "linux-vm-nic" {
 
 #Associate VM with backend pool
 resource "azurerm_network_interface_backend_address_pool_association" "Lb_BackEnd_Asso" {
+    count = "${length(var.linuxVm_Name)}"
     network_interface_id = azurerm_network_interface.linux-vm-nic[count.index]
     ip_configuration_name = var.config_name -"${count.index}"
     backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
@@ -256,13 +257,22 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   location = var.location
   size = "Standard_D2s_v3"
   network_interface_ids = [element(azurerm_network_interface.linux-vm-nic.*.id, count.index)]
-
-  custom_data = filebase64("customdata.tpl")
-
-  admin_username = var.admin_password
-  admin_password = var.admin_password
   zone = "1"  
+  
+  custom_data = filebase64("github-actions-terraform-azure/customdata.tpl")
 
+
+  os_profile{
+    computer_name = "${var.linuxVm_Name}"-[count.index]
+    admin_username = var.admin_password
+    admin_password = var.admin_password
+  }
+
+   os_disk {
+    name                 = "myOsDisk"
+    caching              = "ReadWrite"
+    storage_account_type = "Premium_LRS"
+  }
   
   source_image_reference {
     publisher = "Canonical"
@@ -270,13 +280,5 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
     sku       = "20.04-LTS"
     version   = "latest"
   }
-
-  
-  admin_ssh_key {
-    username   = var.admin_username
-    public_key = file("~/.ssh/id_rsa.pub")
-  }
-
-
 }
 
