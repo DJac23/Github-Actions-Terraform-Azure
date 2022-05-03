@@ -213,8 +213,8 @@ resource "azurerm_network_interface" "linux-vm-nic" {
 #Associate VM with backend pool
 resource "azurerm_network_interface_backend_address_pool_association" "Lb_BackEnd_Asso" {
     count = "${length(var.linuxVm_Name)}"
-    network_interface_id = azurerm_network_interface.linux-vm-nic[count.index]
-    ip_configuration_name = var.config_name -"${count.index}"
+    network_interface_id = "azurerm_network_interface.linux-vm-nic${count.index}"
+    ip_configuration_name = "var.config_name-${count.index}"
     backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
 }
 # Create public IPs
@@ -253,7 +253,7 @@ resource "azurerm_network_interface_security_group_association" "nsgassociation"
 #creating Linux VM
 resource "azurerm_linux_virtual_machine" "linuxvm" {
   count = "${length(var.linuxVm_Name)}"
-  name = "${var.linuxVm_Name}-${count.index}"
+  name = "$var.linuxVm_Name-${count.index}"
   resource_group_name = data.azurerm_resource_group.name.name
   location = var.location
   size = "Standard_D2s_v3"
