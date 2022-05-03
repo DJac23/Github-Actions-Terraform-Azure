@@ -262,7 +262,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   admin_username = var.admin_username 
   admin_password = var.admin_password
   
-  custom_data = filebase64("customdata.tpl")
+  custom_data = filebase64("ip_forward.sh")
 
    os_disk {
     name                 = "myOsDisk${count.index}"
