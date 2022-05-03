@@ -246,30 +246,25 @@ resource "azurerm_network_security_group" "mylinuxsg" {
 
 # Connect the security group to the network interface
 resource "azurerm_network_interface_security_group_association" "nsgassociation" {
-  network_interface_id      = azurerm_network_interface.linux-vm-nic.id
+  network_interface_id      = azurerm_network_interface.linux-vm-nic[count.index]
   network_security_group_id = azurerm_network_security_group.mylinuxsg.id
 }
 #creating Linux VM
 resource "azurerm_linux_virtual_machine" "linuxvm" {
   count = "${length(var.linuxVm_Name)}"
-  name = "${var.linuxVm_Name}"-[count.index]
+  name = "${var.linuxVm_Name}-${count.index}"
   resource_group_name = data.azurerm_resource_group.name.name
   location = var.location
   size = "Standard_D2s_v3"
   network_interface_ids = [element(azurerm_network_interface.linux-vm-nic.*.id, count.index)]
-  zone = "1"  
+  zone = "1" 
+  admin_username = var.admin_username 
+  admin_password = var.admin_password
   
   custom_data = filebase64("github-actions-terraform-azure/customdata.tpl")
 
-
-  os_profile{
-    computer_name = "${var.linuxVm_Name}"-[count.index]
-    admin_username = var.admin_password
-    admin_password = var.admin_password
-  }
-
    os_disk {
-    name                 = "myOsDisk"
+    name                 = "myOsDisk${count.index}"
     caching              = "ReadWrite"
     storage_account_type = "Premium_LRS"
   }
