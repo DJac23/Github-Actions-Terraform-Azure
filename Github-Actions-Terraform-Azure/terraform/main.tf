@@ -159,6 +159,7 @@ resource "azurerm_lb_backend_address_pool" "myBackendPool" {
 
 resource "azurerm_lb_probe" "myHealthProbe" {
   loadbalancer_id = azurerm_lb.internalLB.id
+  resource_group_name = data.azurerm_resource_group.name.name
   name            = "myHealthProbe"
   port            = 22
   interval_in_seconds = 15
@@ -184,7 +185,7 @@ resource "azurerm_private_link_service" "pls" {
 
   auto_approval_subscription_ids = var.Sub_ID
   visibility_subscription_ids = var.Sub_ID
-  load_balancer_frontend_ip_configuration_ids = [azurerm_lb.internalLB.frontend_ip_configuration.id]
+  load_balancer_frontend_ip_configuration_ids = [azurerm_lb.internalLB.frontend_ip_configuration[0].id]
 
   nat_ip_configuration {
     name = "myPrivateLinkService"
@@ -225,7 +226,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   network_interface_ids = [element(azurerm_network_interface.linux-vm-nic.*.id, count.index)]
 
   custom_data = filebase64("customdata.tpl")
-  
+
   admin_username = var.admin_password
   admin_password = var.admin_password
   user_data = local_file.ip_forward.filename

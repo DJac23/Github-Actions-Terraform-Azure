@@ -112,3 +112,7 @@ variable "linuxVm_Name" {
       "1" = "linux_vm"
     }
 }
+
+variable "linux_vm_NicName" {
+  default = "linux_vm_nic"
+}
