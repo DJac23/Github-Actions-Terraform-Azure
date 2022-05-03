@@ -199,7 +199,7 @@ resource "azurerm_private_link_service" "pls" {
 #Create Network Card for linux VM
 resource "azurerm_network_interface" "linux-vm-nic" {
   count = "${length(var.linuxVm_Name)}"
-  name = "${var.linuxVm_NicName}"-[count.index]
+  name = var.linuxVm_NicName - "${count.index}"
   location = var.location
   resource_group_name = data.azurerm_resource_group.name.name
 
