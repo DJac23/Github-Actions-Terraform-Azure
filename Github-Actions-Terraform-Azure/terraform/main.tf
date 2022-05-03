@@ -144,7 +144,7 @@ resource "azurerm_lb" "internalLB" {
 
   frontend_ip_configuration {
     name                 = "LoadBalancerFrontEnd"
-    zones                =  "Zone-redundant"
+    # zones                =  "Zone-redundant"
     subnet_id            = data.azurerm_subnet.subnet1.id
     private_ip_address_allocation = "Dynamic"
     private_ip_address_version    =  "IPv4"
@@ -194,11 +194,6 @@ resource "azurerm_private_link_service" "pls" {
   }  
 }
 
-#Content to add to vm
-resource "local_file" "ip_forward" {
-  filename = "${path.module}/ip_fwd.sh"
-}
-
 #Create Network Card for linux VM
 resource "azurerm_network_interface" "linux-vm-nic" {
   count = "${length(var.linuxVm_Name)}"
@@ -228,6 +223,9 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   location = var.location
   size = "Standard_D2s_v3"
   network_interface_ids = [element(azurerm_network_interface.linux-vm-nic.*.id, count.index)]
+
+  custom_data = filebase64("customdata.tpl")
+  
   admin_username = var.admin_password
   admin_password = var.admin_password
   user_data = local_file.ip_forward.filename
