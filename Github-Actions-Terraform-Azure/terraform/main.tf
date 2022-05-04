@@ -260,6 +260,8 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   computer_name = "var.linuxVmName${count.index}"
   custom_data = filebase64("ip_forward.sh")
 
+  disable_password_authentication = false
+
    os_disk {
     name                 = "myOsDisk${count.index}"
     caching              = "ReadWrite"
@@ -272,9 +274,4 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
     sku       = "20.04-LTS"
     version   = "latest"
   }
-
-  os_profile_linux_config {
-     disable_password_authentication = false
-   }
 }
-
