@@ -182,7 +182,7 @@ resource "azurerm_lb_rule" "myRule" {
 resource "azurerm_network_interface_backend_address_pool_association" "lb_backend" {
     count = "${length(var.linuxVm_Name)}"
     network_interface_id = azurerm_network_interface.linux-vm-nic[count.index].id
-    ip_configuration_name = ""
+    ip_configuration_name = "internal"
     backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
 }
 
