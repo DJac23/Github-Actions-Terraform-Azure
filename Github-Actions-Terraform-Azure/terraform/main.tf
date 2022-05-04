@@ -249,7 +249,7 @@ resource "azurerm_network_security_group" "mylinuxsg" {
 #creating Linux VM
 resource "azurerm_linux_virtual_machine" "linuxvm" {
   count = "${length(var.linuxVmName)}"
-  name = var.linuxVMName       #"var.linuxVmName${count.index}"
+  name = var.linuxVmName       #"var.linuxVmName${count.index}"
   resource_group_name = data.azurerm_resource_group.name.name
   location = var.location
   size = "Standard_D2s_v3"
@@ -257,7 +257,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   zone = "1" 
   admin_username = var.admin_username 
   admin_password = var.admin_password
-  computer_name = var.linuxVMName     #var.linuxVmName"${count.index}"
+  computer_name = var.linuxVmName     #var.linuxVmName"${count.index}"
   custom_data = filebase64("${path.module}/ip_forward.sh")
 
   disable_password_authentication = false
