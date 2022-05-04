@@ -12,10 +12,6 @@ variable "location" {
 #   type        = string
 # }
 
-variable "config_name" {
-  type = string  
-}
-
 variable "admin_username" {
   type = string
   sensitive = true

@@ -179,10 +179,10 @@ resource "azurerm_lb_rule" "myRule" {
 }
 
 #Associate VM with LB backend pool
-resource "azurerm_network_interface_backend_address_pool_association" "Lb_BackEnd_Asso" {
+resource "azurerm_network_interface_backend_address_pool_association" "lb_backend" {
     count = "${length(var.linuxVm_Name)}"
     network_interface_id = azurerm_network_interface.linux-vm-nic[count.index].id
-    ip_configuration_name = "var.config_name-${count.index}"
+    ip_configuration_name = ""
     backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
 }
 
@@ -230,7 +230,7 @@ resource "azurerm_public_ip" "myterraformpublicip" {
 resource "azurerm_network_security_group" "mylinuxsg" {
   name                = "myNetworkSecurityGroup"
   location            = var.location
-  resource_group_name =data.azurerm_resource_group.name.name
+  resource_group_name = data.azurerm_resource_group.name.name
 
   security_rule {
     name                       = "SSH"
@@ -257,7 +257,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   zone = "1" 
   admin_username = var.admin_username 
   admin_password = var.admin_password
-  
+  computer_name = "var.linuxVm_Name-${count.index}"
   custom_data = filebase64("ip_forward.sh")
 
    os_disk {
