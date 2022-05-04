@@ -102,7 +102,7 @@ variable "pls_name" {
     default = "pls"  
 }
 
-variable "linuxVm_Name" {
+variable "linuxVmName" {
     default = {
       "0" = "linuxvm"
       "1" = "linuxvm"

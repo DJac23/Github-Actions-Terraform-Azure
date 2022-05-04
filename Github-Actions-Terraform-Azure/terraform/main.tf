@@ -180,7 +180,7 @@ resource "azurerm_lb_rule" "myRule" {
 
 #Associate VM with LB backend pool
 resource "azurerm_network_interface_backend_address_pool_association" "lb_backend" {
-    count = "${length(var.linuxVm_Name)}"
+    count = "${length(var.linuxVmName)}"
     network_interface_id = azurerm_network_interface.linux-vm-nic[count.index].id
     ip_configuration_name = "internal"
     backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
@@ -206,7 +206,7 @@ resource "azurerm_private_link_service" "pls" {
 
 #Create Network Card for linux VM
 resource "azurerm_network_interface" "linux-vm-nic" {
-  count = "${length(var.linuxVm_Name)}"
+  count = "${length(var.linuxVmName)}"
   name = "var.linuxVm_NicName${count.index}"
   location = var.location
   resource_group_name = data.azurerm_resource_group.name.name
@@ -248,8 +248,8 @@ resource "azurerm_network_security_group" "mylinuxsg" {
 
 #creating Linux VM
 resource "azurerm_linux_virtual_machine" "linuxvm" {
-  count = "${length(var.linuxVm_Name)}"
-  name = "var.linuxVm_Name-${count.index}"
+  count = "${length(var.linuxVmName)}"
+  name = "var.linuxVmName${count.index}"
   resource_group_name = data.azurerm_resource_group.name.name
   location = var.location
   size = "Standard_D2s_v3"
@@ -257,7 +257,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   zone = "1" 
   admin_username = var.admin_username 
   admin_password = var.admin_password
-  computer_name = "var.linuxVm_Name${count.index}"
+  computer_name = "var.linuxVmName${count.index}"
   custom_data = filebase64("ip_forward.sh")
 
    os_disk {
