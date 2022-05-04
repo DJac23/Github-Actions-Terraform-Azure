@@ -272,5 +272,9 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
     sku       = "20.04-LTS"
     version   = "latest"
   }
+
+  os_profile_linux_config {
+     disable_password_authentication = false
+   }
 }
 
