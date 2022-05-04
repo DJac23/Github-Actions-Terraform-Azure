@@ -98,17 +98,11 @@ variable "environment" {
   default =  "dev"
 }
 
+variable "count" {
+  type = number
+  default = 2 
+}
+
 variable "pls_name" {
     default = "pls"  
-}
-
-variable "linuxVmName" {
-    default = {
-      "0" = "linuxvm"
-      "1" = "linuxvm"
-    }
-}
-
-variable "linuxVm_NicName" {
-  default = "linuxvmnic"
 }
