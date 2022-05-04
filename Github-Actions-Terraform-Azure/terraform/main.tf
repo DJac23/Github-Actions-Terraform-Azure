@@ -180,7 +180,7 @@ resource "azurerm_lb_rule" "myRule" {
 
 #Associate VM with LB backend pool
 resource "azurerm_network_interface_backend_address_pool_association" "lb_backend" {
-    count = "${length(var.linuxVmName)}"
+    count = var.instance_count
     network_interface_id = azurerm_network_interface.linux-vm-nic[count.index].id
     ip_configuration_name = "internal"
     backend_address_pool_id = azurerm_lb_backend_address_pool.myBackendPool.id
@@ -206,7 +206,7 @@ resource "azurerm_private_link_service" "pls" {
 
 #Create Network Card for linux VM
 resource "azurerm_network_interface" "linux-vm-nic" {
-  count = var.count
+  count = var.instance_count
   name = "linux-vm-nic-${count.index}"
   location = var.location
   resource_group_name = data.azurerm_resource_group.name.name
@@ -248,7 +248,7 @@ resource "azurerm_network_security_group" "mylinuxsg" {
 
 #creating Linux VM
 resource "azurerm_linux_virtual_machine" "linuxvm" {
-  count = var.count
+  count = var.instance_count
   name = "linuxvm${count.index}"     #"var.linuxVmName${count.index}"
   resource_group_name = data.azurerm_resource_group.name.name
   location = var.location

@@ -98,7 +98,7 @@ variable "environment" {
   default =  "dev"
 }
 
-variable "count" {
+variable "instance_count" {
   type = number
   default = 2 
 }
