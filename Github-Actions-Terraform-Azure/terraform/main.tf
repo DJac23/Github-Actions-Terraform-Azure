@@ -218,13 +218,13 @@ resource "azurerm_network_interface" "linux-vm-nic" {
   }  
 }
 
-# Create public IPs
-resource "azurerm_public_ip" "myterraformpublicip" {
-  name                = "myPublicIP"
-  location            = var.location
-  resource_group_name =data.azurerm_resource_group.name.name
-  allocation_method   = "Dynamic"
-}
+# # Create public IPs
+# resource "azurerm_public_ip" "myterraformpublicip" {
+#   name                = "myPublicIP"
+#   location            = var.location
+#   resource_group_name =data.azurerm_resource_group.name.name
+#   allocation_method   = "Dynamic"
+# }
 
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "mylinuxsg" {

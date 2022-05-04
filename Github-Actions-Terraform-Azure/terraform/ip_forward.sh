@@ -5,6 +5,7 @@
 # Licensed under the MIT License. 
 #--------------------------------------------------------------------------
 
+cat > ./ip_forward.sh <<- "EOF"
 usage() {
 	echo -e "\e[33m"
 	echo "usage: ${0} [-i <eth_interface>] [-f <frontend_port>] [-a <dest_ip_addr>] [-b <dest_port>]" 1>&2
@@ -101,4 +102,5 @@ iptables -t nat -A PREROUTING -p tcp -i ${ETH_IF} --dport ${FE_PORT} -j DNAT --t
 echo -e "\e[32mCreating SNAT rule from ${DEST_IP}:${DEST_PORT} to ${LOCAL_IP}:${FE_PORT}...\e[0m"
 #iptables -t nat -A POSTROUTING -p tcp -o ${ETH_IF} --dport ${DEST_PORT} -j SNAT -d ${DEST_IP} --to-source ${LOCAL_IP}:${FE_PORT}
 iptables -t nat -A POSTROUTING -o ${ETH_IF} -j MASQUERADE
-echo -e "\e[32mDone!\e[0m" >> ./ip_forward.sh
+echo -e "\e[32mDone!\e[0m"
+EOF
