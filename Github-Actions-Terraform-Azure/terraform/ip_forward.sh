@@ -4,7 +4,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. 
 #--------------------------------------------------------------------------
-
+echo "
 usage() {
 	echo -e "\e[33m"
 	echo "usage: ${0} [-i <eth_interface>] [-f <frontend_port>] [-a <dest_ip_addr>] [-b <dest_port>]" 1>&2
@@ -15,7 +15,7 @@ usage() {
 	echo "<dest_ip_addr> : Destination IP which packet is forwarded" 1>&2
 	echo -e "\e[0m"
 } +
-echo "
+
 if [[ $# -eq 0 ]]; then
 	echo -e "\e[31mERROR: no options given\e[0m"
 	usage
