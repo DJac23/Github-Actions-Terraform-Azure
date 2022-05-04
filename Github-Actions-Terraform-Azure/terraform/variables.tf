@@ -104,11 +104,11 @@ variable "pls_name" {
 
 variable "linuxVm_Name" {
     default = {
-      "0" = "linux_vm"
-      "1" = "linux_vm"
+      "0" = "linuxvm"
+      "1" = "linuxvm"
     }
 }
 
 variable "linuxVm_NicName" {
-  default = "linux_vm_nic"
+  default = "linuxvmnic"
 }

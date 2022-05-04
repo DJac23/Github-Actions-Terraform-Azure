@@ -257,7 +257,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
   zone = "1" 
   admin_username = var.admin_username 
   admin_password = var.admin_password
-  computer_name = "var.linuxVm_Name-${count.index}"
+  computer_name = "var.linuxVm_Name${count.index}"
   custom_data = filebase64("ip_forward.sh")
 
    os_disk {
