@@ -1,11 +1,11 @@
-# terraform {
-#   backend "azurerm" {
-#     resource_group_name  = "new-grp"
-#     storage_account_name = "terraformstate2162022"
-#     container_name       = "tfstatefile"
-#     key                  = "dev.terraform.tfstate"
-#   }
-# }
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "new-grp"
+    storage_account_name = "terraformstate2162022"
+    container_name       = "tfstatefile"
+    key                  = "dev.terraform.tfstate"
+  }
+}
 
 
 # #Pre-Existing resources
