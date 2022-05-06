@@ -1,108 +1,128 @@
-variable "rgname" {
-  description = "Resource Group Name"
-  type        = string
-}
-variable "location" {
-  description = "Azure location"
-  type        = string
-}
-
-# variable "sname" {
-#   description = "Azure Storage Account"
+# variable "rgname" {
+#   description = "Resource Group Name"
+#   type        = string
+# }
+# variable "location" {
+#   description = "Azure location"
 #   type        = string
 # }
 
-variable "admin_username" {
-  type = string
-  sensitive = true
-}
+# # variable "sname" {
+# #   description = "Azure Storage Account"
+# #   type        = string
+# # }
 
-variable "admin_password" {
-  type = string
-  sensitive = true
-}
-
-# variable "demoadfname" {
-#   description = "Data Factory Name"
+# variable "admin_username" {
 #   type = string
+#   sensitive = true
 # }
 
-# variable "tenant_id" {
-#   description = "tenant id"
-#   default = "b389dae6-fcaf-4bd7-9d45-7e96e87d725e"  
-# }
-
-# variable "object_id" {
-#   default = "3304432f-18fe-4a7a-a1e8-de0d71afad38"  
-# }
-
-variable "Sub_ID" {
-    type = list
-    default = ["e812877a-b4ba-4591-88b7-93406abf1c21"]
-  
-}
-
-# variable "managed_virtual_network_enabled" {
-#   type = bool
-#   default = true
-# }
-
-# variable "virtual_network_enabled" {
-#   type = bool
-#   default = true
-# }
-
-# variable "data_exfiltration_protection_enabled" {
-#   type = bool
-#   default = true
-# }
-
-# variable "aad_admin_login" {
+# variable "admin_password" {
 #   type = string
-#   default = "AzureAD Admin"
+#   sensitive = true
+# }
+
+# # variable "demoadfname" {
+# #   description = "Data Factory Name"
+# #   type = string
+# # }
+
+# # variable "tenant_id" {
+# #   description = "tenant id"
+# #   default = "b389dae6-fcaf-4bd7-9d45-7e96e87d725e"  
+# # }
+
+# # variable "object_id" {
+# #   default = "3304432f-18fe-4a7a-a1e8-de0d71afad38"  
+# # }
+
+# variable "Sub_ID" {
+#     type = list
+#     default = ["e812877a-b4ba-4591-88b7-93406abf1c21"]
   
 # }
 
-# variable "tags" { 
-#   type = list(string)
-#   default = ["dev","test","prod"]
+# # variable "managed_virtual_network_enabled" {
+# #   type = bool
+# #   default = true
+# # }
+
+# # variable "virtual_network_enabled" {
+# #   type = bool
+# #   default = true
+# # }
+
+# # variable "data_exfiltration_protection_enabled" {
+# #   type = bool
+# #   default = true
+# # }
+
+# # variable "aad_admin_login" {
+# #   type = string
+# #   default = "AzureAD Admin"
+  
+# # }
+
+# # variable "tags" { 
+# #   type = list(string)
+# #   default = ["dev","test","prod"]
+# # }
+
+# # variable "managedIRname" {
+# #   type = string 
+# #   default = "managedIR"  
+# # }
+
+# # variable "dev-dlake-filesys-name" {
+# #   default = "dev-dlake-filesys"  
+# # }
+
+# # variable "azurerm_synapse_workspace_name" {
+# #     default = "dev-synwks-001"  
+# # }
+
+# # variable "SQLDBName" {
+# #   default = "SQLDB"
+# # }
+
+# # variable "syndatalake-blob-name" {
+# #   default = "syndatalake_blob"  
+# # }
+
+# # variable "syndatalake-table-name" {
+# #   default = "syndatalake_table"  
+# # }
+
+# variable "environment" {
+#   description =  "Name of environment"
+#   default =  "dev"
 # }
 
-# variable "managedIRname" {
-#   type = string 
-#   default = "managedIR"  
+# variable "instance_count" {
+#   type = number
+#   default = 2 
 # }
 
-# variable "dev-dlake-filesys-name" {
-#   default = "dev-dlake-filesys"  
+# variable "pls_name" {
+#     default = "<EnterPLSName>"  
 # }
 
-# variable "azurerm_synapse_workspace_name" {
-#     default = "dev-synwks-001"  
+# variable "vnetname" {
+#   default = "<EnterVnetName>"
 # }
 
-# variable "SQLDBName" {
-#   default = "SQLDB"
+# variable "frontendsubnetname" {
+#   default = "<Entersubnetname>"
 # }
 
-# variable "syndatalake-blob-name" {
-#   default = "syndatalake_blob"  
+# variable "BackendServersName" {
+#   default = "<Entersubnetname>"
 # }
 
-# variable "syndatalake-table-name" {
-#   default = "syndatalake_table"  
+# variable "privlinksubnet" {
+#   default = "<Entersubnetname>"
 # }
 
-variable "environment" {
-  description =  "Name of environment"
-  default =  "dev"
-}
-
-variable "instance_count" {
-  type = number
-  default = 2 
-}
-
-variable "pls_name" {
-    default = "pls"  
-}
+# variable "lbname" {
+#   default = "InternalLB"
+# }
