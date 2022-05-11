@@ -1,11 +1,11 @@
-# variable "rgname" {
-#   description = "Resource Group Name"
-#   type        = string
-# }
-# variable "location" {
-#   description = "Azure location"
-#   type        = string
-# }
+variable "rgname" {
+  description = "Resource Group Name"
+  type        = string
+}
+variable "location" {
+  description = "Azure location"
+  type        = string
+}
 
 # # variable "sname" {
 # #   description = "Azure Storage Account"
@@ -22,10 +22,10 @@
 #   sensitive = true
 # }
 
-# # variable "demoadfname" {
-# #   description = "Data Factory Name"
-# #   type = string
-# # }
+variable "demoadfname" {
+  description = "Data Factory Name"
+  type = string
+}
 
 # # variable "tenant_id" {
 # #   description = "tenant id"
@@ -42,15 +42,15 @@
   
 # }
 
-# # variable "managed_virtual_network_enabled" {
-# #   type = bool
-# #   default = true
-# # }
+variable "managed_virtual_network_enabled" {
+  type = bool
+  default = true
+}
 
-# # variable "virtual_network_enabled" {
-# #   type = bool
-# #   default = true
-# # }
+variable "virtual_network_enabled" {
+  type = bool
+  default = true
+}
 
 # # variable "data_exfiltration_protection_enabled" {
 # #   type = bool
@@ -68,10 +68,10 @@
 # #   default = ["dev","test","prod"]
 # # }
 
-# # variable "managedIRname" {
-# #   type = string 
-# #   default = "managedIR"  
-# # }
+variable "managedIRname" {
+  type = string 
+  default = "managedIR"  
+}
 
 # # variable "dev-dlake-filesys-name" {
 # #   default = "dev-dlake-filesys"  
@@ -93,10 +93,10 @@
 # #   default = "syndatalake_table"  
 # # }
 
-# variable "environment" {
-#   description =  "Name of environment"
-#   default =  "dev"
-# }
+variable "environment" {
+  description =  "Name of environment"
+  default =  "dev"
+}
 
 # variable "instance_count" {
 #   type = number

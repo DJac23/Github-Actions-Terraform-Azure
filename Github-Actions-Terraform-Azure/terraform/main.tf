@@ -9,14 +9,14 @@ terraform {
 
 
 # #Pre-Existing resources
-# data "azurerm_resource_group" "name" {
-#     name = "New-grp"
-# }
+data "azurerm_resource_group" "name" {
+    name = "New-grp"
+}
 
-# data "azurerm_virtual_network" "vnet" {
-#     name = "vnet-01"
-#     resource_group_name = var.rgname
-# }
+data "azurerm_virtual_network" "vnet" {
+    name = "vnet-01"
+    resource_group_name = var.rgname
+}
 
 # data "azurerm_subnet" "subnet" {
 #     name =   "pls-subnet"
@@ -45,12 +45,13 @@ terraform {
 
 # # #Creating ADF 
 
-# # resource "azurerm_data_factory" "demoadfname" {
-# #     name = var.demoadfname
-# #     location = var.location
-# #     resource_group_name = var.rgname
-# #     managed_virtual_network_enabled = var.managed_virtual_network_enabled ? "true" : "false"
-# #     public_network_enabled = false
+resource "azurerm_data_factory" "demoadfname" {
+    count = var.environment == "dev" && var.managed_virtual_network_enabled && var.virtual_network_enabled ? 1 : 0
+    name = var.demoadfname
+    location = var.location
+    resource_group_name = var.rgname
+    managed_virtual_network_enabled = var.managed_virtual_network_enabled ? "true" : "false"
+    public_network_enabled = false
     
 # #     dynamic "github_configuration"{
 # #       for_each = var.environment == "dev" ? [1] : []
@@ -63,16 +64,16 @@ terraform {
 # #       }
 # #     }
   
-# # }
+}
 
-# # resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
-# #     name = var.managedIRname
-# #     data_factory_id = azurerm_data_factory.demoadfname.id
-# #     resource_group_name = var.rgname
-# #     location = var.location
-# #     virtual_network_enabled = var.virtual_network_enabled ? "true" : "false"    
+resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
+    name = var.managedIRname
+    data_factory_id = azurerm_data_factory.demoadfname.id
+    resource_group_name = var.rgname
+    location = var.location
+    virtual_network_enabled = var.virtual_network_enabled ? "true" : "false"    
   
-# # }
+}
 
 # # # resource "azurerm_storage_account" "sname" {
 # # #   name                     = var.sname
