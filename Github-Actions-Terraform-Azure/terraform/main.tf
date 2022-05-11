@@ -46,7 +46,7 @@ data "azurerm_virtual_network" "vnet" {
 # # #Creating ADF 
 
 resource "azurerm_data_factory" "demoadfname" {
-    count = var.environment == "dev" && var.managed_virtual_network_enabled && var.virtual_network_enabled ? 1 : 0
+    count = "${var.environment == "dev" && var.managed_virtual_network_enabled && var.virtual_network_enabled ? 1 : 0}"
     name = var.demoadfname
     location = var.location
     resource_group_name = var.rgname
