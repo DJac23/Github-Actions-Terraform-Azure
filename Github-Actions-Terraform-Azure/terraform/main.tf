@@ -18,7 +18,6 @@ data "azurerm_virtual_network" "vnet" {
     resource_group_name = var.rgname
 }
 
-
 # data "azurerm_subnet" "subnet" {
 #     name =   "pls-subnet"
 #     virtual_network_name = data.azurerm_virtual_network.vnet.name
