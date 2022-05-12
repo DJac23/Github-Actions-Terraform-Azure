@@ -36,33 +36,33 @@ data "azurerm_virtual_network" "vnet" {
 #     resource_group_name  = azurerm_resource_group.rgname.name  
 # }
 
-# # data "azurerm_mssql_server" "sqlserver" {
-# #     name = "dbtestserver-01"
-# #     resource_group_name = var.rgname  
-# # }
+# data "azurerm_mssql_server" "sqlserver" {
+#     name = "dbtestserver-01"
+#     resource_group_name = var.rgname  
+# }
 
 
 
 # # #Creating ADF 
 
 resource "azurerm_data_factory" "demoadfname" {
-    # count = "${var.environment == "dev" && var.managed_virtual_network_enabled && var.virtual_network_enabled ? 1 : 0}
+    count = "${var.environment == "dev" && var.managed_virtual_network_enabled && var.virtual_network_enabled ? 1 : 0}"
     name = var.demoadfname
     location = var.location
     resource_group_name = var.rgname
     managed_virtual_network_enabled = var.managed_virtual_network_enabled ? "true" : "false"
     public_network_enabled = false
 }    
-# #     dynamic "github_configuration"{
-# #       for_each = var.environment == "dev" ? [1] : []
-# #       content{
-# #         account_name = "djac23"
-# #         branch_name = "main"
-# #         repository_name = "Github-Actions-Terraform-Azure"
-# #         root_folder = "/"
-# #         git_url = "https://github.com"
-# #       }
-# #     }  
+#     dynamic "github_configuration"{
+#       for_each = var.environment == "dev" ? [1] : []
+#       content{
+#         account_name = "djac23"
+#         branch_name = "main"
+#         repository_name = "Github-Actions-Terraform-Azure"
+#         root_folder = "/"
+#         git_url = "https://github.com"
+#       }
+#     }  
 
 
 resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
@@ -74,103 +74,103 @@ resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
   
 }
 
-# # # resource "azurerm_storage_account" "sname" {
-# # #   name                     = var.sname
-# # #   resource_group_name      = azurerm_resource_group.rgname.name
-# # #   location                 = var.location
-# # #   account_tier             = "Standard"
-# # #   account_replication_type = "LRS"
-# # #   account_kind             = "StorageV2"
-# # #   is_hns_enabled           = "true" #enables Hierarchical Namespace(used for data lake storages)
-# # #   allow_blob_public_access = false
-# # # }
+# resource "azurerm_storage_account" "sname" {
+#   name                     = var.sname
+#   resource_group_name      = azurerm_resource_group.rgname.name
+#   location                 = var.location
+#   account_tier             = "Standard"
+#   account_replication_type = "LRS"
+#   account_kind             = "StorageV2"
+#   is_hns_enabled           = "true" #enables Hierarchical Namespace(used for data lake storages)
+#   allow_blob_public_access = false
+# }
 
-# # # resource "azurerm_storage_data_lake_gen2_filesystem" "dev-dlake-filesys" {
-# # #   name               = var.dev-dlake-filesys-name
-# # #   storage_account_id = azurerm_storage_account.sname.id
-# # # }
+# resource "azurerm_storage_data_lake_gen2_filesystem" "dev-dlake-filesys" {
+#   name               = var.dev-dlake-filesys-name
+#   storage_account_id = azurerm_storage_account.sname.id
+# }
 
-# # # resource "azurerm_synapse_workspace" "dev-synwks-001" {
-# # #   name                                 =  var.azurerm_synapse_workspace_name
-# # #   resource_group_name                  = azurerm_resource_group.rgname.name
-# # #   location                             = var.location
-# # #   storage_data_lake_gen2_filesystem_id = azurerm_storage_data_lake_gen2_filesystem.dev-dlake-filesys.id
-# # #   sql_administrator_login              = var.admin_username
-# # #   sql_administrator_login_password     = var.admin_password 
-# # #   managed_virtual_network_enabled = var.managed_virtual_network_enabled ? "true" : "false"
-# # #   data_exfiltration_protection_enabled = var.data_exfiltration_protection_enabled ? "true" : "false" #securing data egress from synapse workspace
+# resource "azurerm_synapse_workspace" "dev-synwks-001" {
+#   name                                 =  var.azurerm_synapse_workspace_name
+#   resource_group_name                  = azurerm_resource_group.rgname.name
+#   location                             = var.location
+#   storage_data_lake_gen2_filesystem_id = azurerm_storage_data_lake_gen2_filesystem.dev-dlake-filesys.id
+#   sql_administrator_login              = var.admin_username
+#   sql_administrator_login_password     = var.admin_password 
+#   managed_virtual_network_enabled = var.managed_virtual_network_enabled ? "true" : "false"
+#   data_exfiltration_protection_enabled = var.data_exfiltration_protection_enabled ? "true" : "false" #securing data egress from synapse workspace
 
-# # #   aad_admin {
-# # #     login     = var.aad_admin_login
-# # #     object_id = var.object_id
-# # #     tenant_id = var.tenant_id
-# # #   }
+#   aad_admin {
+#     login     = var.aad_admin_login
+#     object_id = var.object_id
+#     tenant_id = var.tenant_id
+#   }
 
-# # #   tags = {
-# # #       environment = "${var.tags[0]}"
-# # #   }
-# # # }
+#   tags = {
+#       environment = "${var.tags[0]}"
+#   }
+# }
 
-# # # ADF Azure to Azure Manage Endpoints
-# # resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
-# #     name = var.SQLDBName
-# #     data_factory_id = azurerm_data_factory.demoadfname.id
-# #     target_resource_id = data.azurerm_mssql_server.sqlserver.id 
-# #     subresource_name = "sqlServer"  
-# # }
+# # ADF Azure to Azure Manage Endpoints
+# resource "azurerm_data_factory_managed_private_endpoint" "SQLDB" {
+#     name = var.SQLDBName
+#     data_factory_id = azurerm_data_factory.demoadfname.id
+#     target_resource_id = data.azurerm_mssql_server.sqlserver.id 
+#     subresource_name = "sqlServer"  
+# }
 
-# # resource "azurerm_data_factory_managed_private_endpoint" "syndatalake-blob" {
-# #     name = var.syndatalake-blob-name
-# #     data_factory_id = azurerm_data_factory.demoadfname.id
-# #     target_resource_id = azurerm_storage_account.sname.id
-# #     subresource_name = "blob"  
-# # }
+# resource "azurerm_data_factory_managed_private_endpoint" "syndatalake-blob" {
+#     name = var.syndatalake-blob-name
+#     data_factory_id = azurerm_data_factory.demoadfname.id
+#     target_resource_id = azurerm_storage_account.sname.id
+#     subresource_name = "blob"  
+# }
 
-# # resource "azurerm_data_factory_managed_private_endpoint" "syndatalake-table" {
-# #     name = var.syndatalake-table-name
-# #     data_factory_id = azurerm_data_factory.demoadfname.id
-# #     target_resource_id = azurerm_storage_account.sname.id
-# #     subresource_name = "table"  
-# # }
+# resource "azurerm_data_factory_managed_private_endpoint" "syndatalake-table" {
+#     name = var.syndatalake-table-name
+#     data_factory_id = azurerm_data_factory.demoadfname.id
+#     target_resource_id = azurerm_storage_account.sname.id
+#     subresource_name = "table"  
+# }
 
-# # resource "azurerm_data_factory_managed_private_endpoint" "plsconnection" {
-# #    name = "plsconnection"
-# #    data_factory_id = azurerm_data_factory.demoadfname.id
-# #    target_resource_id = azurerm_private_link_service.pls.id
-# # }
+# resource "azurerm_data_factory_managed_private_endpoint" "plsconnection" {
+#    name = "plsconnection"
+#    data_factory_id = azurerm_data_factory.demoadfname.id
+#    target_resource_id = azurerm_private_link_service.pls.id
+# }
 
-# # resource "azurerm_resource_group" "rgname" {
-# #    name     = var.rgname
-# #    location = var.location
-# #  }
+# resource "azurerm_resource_group" "rgname" {
+#    name     = var.rgname
+#    location = var.location
+#  }
 
-# #  resource "azurerm_virtual_network" "vnetname" {
-# #    name                = var.vnetname
-# #    address_space       = ["10.0.0.0/16"] #Example IP range,please change to desired ip range
-# #    location            = var.location
-# #    resource_group_name = azurerm_resource_group.rgname.name
-# #  }
+#  resource "azurerm_virtual_network" "vnetname" {
+#    name                = var.vnetname
+#    address_space       = ["10.0.0.0/16"] #Example IP range,please change to desired ip range
+#    location            = var.location
+#    resource_group_name = azurerm_resource_group.rgname.name
+#  }
 
-# #  resource "azurerm_subnet" "frontendsubnet" {
-# #    name                 = var.frontendsubnetname
-# #    resource_group_name  = azurerm_resource_group.rgname.name
-# #    virtual_network_name = azurerm_virtual_network.vnetname.name
-# #    address_prefixes     = ["10.0.2.0/24"] #Example IP range,please change to desired ip range
-# #  }
+#  resource "azurerm_subnet" "frontendsubnet" {
+#    name                 = var.frontendsubnetname
+#    resource_group_name  = azurerm_resource_group.rgname.name
+#    virtual_network_name = azurerm_virtual_network.vnetname.name
+#    address_prefixes     = ["10.0.2.0/24"] #Example IP range,please change to desired ip range
+#  }
 
-# #   resource "azurerm_subnet" "backendsubnet" {
-# #    name                 = var.BackendServersName
-# #    resource_group_name  = azurerm_resource_group.rgname.name
-# #    virtual_network_name = azurerm_virtual_network.vnetname.name
-# #    address_prefixes     = ["10.0.3.0/24"] #Example IP range,please change to desired ip range
-# #  }
+#   resource "azurerm_subnet" "backendsubnet" {
+#    name                 = var.BackendServersName
+#    resource_group_name  = azurerm_resource_group.rgname.name
+#    virtual_network_name = azurerm_virtual_network.vnetname.name
+#    address_prefixes     = ["10.0.3.0/24"] #Example IP range,please change to desired ip range
+#  }
 
-# #    resource "azurerm_subnet" "privlinksubnet" {
-# #    name                 = var.privlinksubnet
-# #    resource_group_name  = azurerm_resource_group.rgname.name
-# #    virtual_network_name = azurerm_virtual_network.vnetname.name
-# #    address_prefixes     = ["10.0.4.0/24"] #Example IP range,please change to desired ip range
-# #  }
+#    resource "azurerm_subnet" "privlinksubnet" {
+#    name                 = var.privlinksubnet
+#    resource_group_name  = azurerm_resource_group.rgname.name
+#    virtual_network_name = azurerm_virtual_network.vnetname.name
+#    address_prefixes     = ["10.0.4.0/24"] #Example IP range,please change to desired ip range
+#  }
 
 
 # # # #Creating  LB
