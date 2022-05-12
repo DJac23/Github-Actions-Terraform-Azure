@@ -67,7 +67,7 @@ resource "azurerm_data_factory" "demoadfname" {
 
 resource "azurerm_data_factory_integration_runtime_azure" "managedIR" {
     name = var.managedIRname
-    data_factory_id = azurerm_data_factory.demoadfname.id
+    data_factory_id = azurerm_data_factory.demoadfname[count.index].id
     resource_group_name = var.rgname
     location = var.location
     virtual_network_enabled = var.virtual_network_enabled ? "true" : "false"    
