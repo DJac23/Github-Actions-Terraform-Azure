@@ -8,10 +8,10 @@ variable "location" {
   type        = string
 }
 
-# variable "sname" {
-#   description = "Azure Storage Account"
-#   type        = string
-# }
+variable "sname" {
+  description = "Azure Storage Account"
+  type        = string
+}
 
 # variable "admin_username" {
 #   type = string
@@ -28,14 +28,14 @@ variable "demoadfname" {
   type = string
 }
 
-# variable "tenant_id" {
-#   description = "tenant id"
-#   default = "b389dae6-fcaf-4bd7-9d45-7e96e87d725e"  
-# }
+variable "tenant_id" {
+  description = "tenant id"
+  default = "b389dae6-fcaf-4bd7-9d45-7e96e87d725e"  
+}
 
-# variable "object_id" {
-#   default = "3304432f-18fe-4a7a-a1e8-de0d71afad38"  
-# }
+variable "object_id" {
+  default = "3304432f-18fe-4a7a-a1e8-de0d71afad38"  
+}
 
 # variable "Sub_ID" {
 #     type = list
@@ -58,11 +58,11 @@ variable "virtual_network_enabled" {
 #   default = true
 # }
 
-# variable "aad_admin_login" {
-#   type = string
-#   default = "AzureAD Admin"
+variable "aad_admin_login" {
+  type = string
+  default = "AzureAD Admin"
   
-# }
+}
 
 # variable "tags" { 
 #   type = list(string)
@@ -74,25 +74,25 @@ variable "managedIRname" {
   default = "managedIR"  
 }
 
-# variable "dev-dlake-filesys-name" {
-#   default = "dev-dlake-filesys"  
-# }
+variable "dev-dlake-filesys-name" {
+  default = "dev-dlake-filesys"  
+}
 
-# variable "azurerm_synapse_workspace_name" {
-#     default = "dev-synwks-001"  
-# }
+variable "azurerm_synapse_workspace_name" {
+    default = "dev-synwks-001"  
+}
 
-# variable "SQLDBName" {
-#   default = "SQLDB"
-# }
+variable "SQLDBName" {
+  default = "SQLDB"
+}
 
-# variable "syndatalake-blob-name" {
-#   default = "syndatalake_blob"  
-# }
+variable "syndatalake-blob-name" {
+  default = "syndatalake_blob"  
+}
 
-# variable "syndatalake-table-name" {
-#   default = "syndatalake_table"  
-# }
+variable "syndatalake-table-name" {
+  default = "syndatalake_table"  
+}
 
 variable "environment" {
   description =  "Name of environment"
